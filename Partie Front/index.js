@@ -5,6 +5,7 @@ async function main() {
   const articles = await getArticles();
   console.log(articles);
   for (article of articles) {
+
     showArticle(article);
   }
 }
@@ -13,6 +14,7 @@ function getArticles() {
   //fonction pour récupérer la liste des oursons
   return fetch("http://localhost:3000/api/teddies")
     .then(function (response) {
+      console.log('ok');
       return response.json();
     })
     .then(function (articles) {
@@ -24,8 +26,9 @@ function getArticles() {
 }
 
 function showArticle(article) {
+  console.log(article);
   document.getElementById("product-container").innerHTML += `
-  <a href="pages/${article._id}.html">
+  <a href="pages/product.html?id=${article._id}">
   <div class="product">
     <div class="product__image">
       <img src="${article.imageUrl}" alt="Image de l'ours ${article.name}"/>

@@ -107,3 +107,7 @@ footer {
   right: 10px;
   z-index: -1;
 }
+
+.thearticle__image img {
+  width:500px;
+}
