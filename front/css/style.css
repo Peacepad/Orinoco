@@ -54,7 +54,7 @@ header i {
 
 .product__content {
   width: 100%;
-  height: 60px;
+  height: 40px;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
@@ -76,7 +76,7 @@ header i {
 
 .product__image {
   width: 100%;
-  height: 240px;
+  height: 300px;
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
   padding: 5%;
@@ -84,14 +84,16 @@ header i {
 
 .product__image img {
   width: 90%;
-  height: 258px;
+  height: 90%;
   border-radius: 5px;
-  
+  margin: auto;
   box-sizing: border-box;
+  display: flex;
 }
 
 .product__name {
     padding: 5%;
+    height: 40px;
 }
 
 footer {
