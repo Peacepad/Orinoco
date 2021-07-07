@@ -44,7 +44,7 @@ header i {
 }
 
 .product {
-
+  max-width: 407px ;
   border: solid grey 1px;
   
   border-radius: 5px;
@@ -80,6 +80,7 @@ header i {
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
   padding: 5%;
+  padding-bottom: 0;
 }
 
 .product__image img {
@@ -92,7 +93,7 @@ header i {
 }
 
 .product__name {
-    padding: 5%;
+    margin-left: 5%;
     height: 40px;
 }
 
@@ -112,4 +113,30 @@ footer {
 
 .thearticle__image img {
   width:500px;
+}
+
+/* ------------- Page produit --------------*/
+
+#thearticle-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  width: 90%;
+  margin: auto;
+}
+
+.thearticle__image, .thearticle__content {
+  width: 40%;
+}
+
+.choose {
+  width: 90%;
+  margin: auto;
+}
+
+.choose form {
+  display: flex;
+  flex-direction: wrap;
+  justify-content: space-around;
+  align-items: center;
 }

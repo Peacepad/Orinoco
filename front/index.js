@@ -44,6 +44,3 @@ function showArticle(article) {
 </a>`;
 
 }
-
-let buttonSend = document.querySelector("#test");
-buttonSend.textContent = "bonjour";
