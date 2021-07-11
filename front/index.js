@@ -1,46 +1,41 @@
-main(); //appel de la fonction
-
-async function main() {
-  //fonction pour avoir tout les oursons dans le tableau donné dans getTeddies
-  const articles = await getArticles();
-  console.log(articles);
-  for (article of articles) {
-
-    showArticle(article);
-  }
-}
-
-function getArticles() {
-  //fonction pour récupérer la liste des oursons
+//fonction pour récupérer la liste des oursons
+function getTeddies() {
   return fetch("http://localhost:3000/api/teddies")
     .then(function (response) {
-      console.log('ok');
+      console.log("ok");
       return response.json();
     })
-    .then(function (articles) {
-      return articles;
+    .then(function (teddies) {
+      return teddies;
     })
     .catch(function (error) {
       console.log("error in function getTeddies");
     });
 }
 
-function showArticle(article) {
-  console.log(article);
+//
+
+async function main() {
+  const teddies = await getTeddies();
+  for (teddy of teddies) {
+    displayTeddies(teddy);
+  }
+}
+
+function displayTeddies() {
   document.getElementById("product-container").innerHTML += `
-  <a href="pages/product.html?id=${article._id}">
+  <a href="pages/product.html?id=${teddy._id}">
   <div class="product">
     <div class="product__image">
-      <img src="${article.imageUrl}" alt="Image de l'ours ${article.name}"/>
+      <img src="${teddy.imageUrl}" alt="Image de l'ours ${teddy.name}"/>
     </div>
     <div class="product__content">
-
-      <div class="product__price">${article.price}<sup>€</sup></div>
-
-      <div class="product__name">${article.name}</div>
-
+      <div class="product__name">${teddy.name}</div>
+      <div class="product__price">${teddy.price / 100}€</div>  
     </div>
   </div>
 </a>`;
-
 }
+
+//Appel de la fonction
+main();

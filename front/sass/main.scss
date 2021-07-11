@@ -1,0 +1,60 @@
+@import "utils/variables";
+@import "base/typography";
+@import "layouts/header";
+@import "pages/accueil";
+@import "pages/panier";
+@import "layouts/footer";
+
+body,
+html {
+  margin: 0;
+}
+
+
+
+footer {
+  width: 100%;
+  height: 60px;
+  background-color: #f2e8f0;
+  box-sizing: border-box;
+}
+
+
+
+.thearticle__image img {
+  width: 500px;
+}
+
+/* ------------- Page produit --------------*/
+
+.thearticle {
+    background-color: $font-color;
+    width: 90%;
+    margin: auto;
+    padding:10px ;
+}
+#thearticle-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  
+  
+}
+
+.thearticle__image,
+.thearticle__content {
+  width: 40%;
+}
+
+.choose {
+  width: 90%;
+  margin: auto;
+}
+
+.choose form {
+  display: flex;
+  flex-direction: wrap;
+  justify-content: space-around;
+  align-items: center;
+}
+

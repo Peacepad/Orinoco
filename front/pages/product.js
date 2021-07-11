@@ -5,21 +5,19 @@ console.log(justId);
 
 let products = [];
 const selectForm = document.querySelector("#couleur");
-let colorChoice = selectForm.options[selectForm.selectedIndex].value;
 const zoneAffichage = document.getElementById("thearticle-container");
-boutonFormulaire = document.querySelector("#submit");
 const formProduct = document.querySelector('#form-for-product');
 
 // récupérer les infos en fonction de l'id
-function getTheArticle() {
+function getTheTeddy() {
   return fetch(`http://localhost:3000/api/teddies/${justId}`)
     .then(function (res) {
       console.log("ok");
       return res.json();
     })
-    .then(function (theArticle) {
+    .then(function (teddy) {
       //console.log(theArticle);
-      return theArticle;
+      return teddy;
     })
     .catch(function (error) {
       console.log("error in function getTheArticle");
@@ -28,89 +26,111 @@ function getTheArticle() {
 
 async function main() {
   //fonction pour avoir tout les oursons dans le tableau donné dans getTeddies
-  const theArticle = await getTheArticle();
-  const colors = theArticle.colors;
+  const teddy = await getTheTeddy();
+  const colors = teddy.colors;
 
-  showtheArticle(theArticle);
+  showtheArticle(teddy);
 
   for (color of colors) {
     addOption(color);
   }
 
+
   goToBasket();
 }
 
-function showtheArticle(theArticle) {
+function showtheArticle(teddy) {
   //console.log(theArticle);
   zoneAffichage.innerHTML = `
     <div class="thearticle__image">
-      <img src="${theArticle.imageUrl}" alt="Image de l'ours ${theArticle.name}"/>
+      <img src="${teddy.imageUrl}" alt="Image de l'ours ${teddy.name}"/>
     </div>
     <div class="thearticle__content">
       <div class="thearticle__name">
-        <h1>${theArticle.name}</h1>
+        <h1>${teddy.name}</h1>
       </div>
-      <div class="thearticle__description">${theArticle.description}</div>
-      <div class="thearticle__price">${theArticle.price}<sup>€</sup></div>
+      <div class="thearticle__description">${teddy.description}</div>
+      <div class="thearticle__price">${teddy.price/100}<sup>€</sup></div>
     </div>
     `;
 }
 
-function addOption(colors) {
+function addOption() {
   selectForm.add(new Option(`${color}`, `${color}`));
 }
 
-// fonction pour ressortir la couleur selectionnée dans le select
-function colorSelected() {
-  colorChoice = selectForm.options[selectForm.selectedIndex].value;
 
-  return colorChoice;
-}
+
+// fonction pour ressortir la couleur selectionnée dans le select
+
 
 async function goToBasket() {
-  const theArticle = await getTheArticle();
+  const teddy = await getTheTeddy();
 
-  // Définition du bouton Ajouter au panier
+ 
+     // Définition d'un article
+     let product = {
+      teddyName : teddy.name,
+      teddyID: teddy._id,
+      teddyColor: "",
+      teddyPrice: teddy.price,
+      };
 
-  // ce que doit contenir un objet ajouté au panier
-  function Products(prix, nom, couleur, quantite, identifiant) {
-    (this.prix = prix),
-      (this.nom = nom),
-      (this.couleur = couleur),
-      (this.quantite = quantite),
-      (this.identifiant = identifiant);
-  }
 
-  //Définition d'un article
-  let product = new Products(
-    theArticle.price,
-    theArticle.name,
-    colorChoice,
-    1,
-    theArticle._id
-  );
 
-  // Ecoute du formulaire
+
+
+  // Ecoute de la couleur
   selectForm.addEventListener("change", (e) => {
-    product.couleur = colorSelected(colorChoice);
-    console.log(product);
+    product.teddyColor = e.target.value;
+    console.log(productInLocalStorage);
   });
 
-  console.log(colorChoice);
+
+  // Comment continuer après avoir choisi un produit
+
+  function howContinue() {
+    if (window.confirm(`L'ourson ${teddy.name} a été ajouté au panier avec sa couleur ${product.teddyColor}.
+    Cliquez sur Ok pour accéder au panier ou sur annuler pour continuer vos achats`)) {
+      window.location.href = "panier.html";
+    } else {
+      document.location.reload();
+    }
+  };
+
+  //Verification du local Storage
+  let productInLocalStorage = JSON.parse(localStorage.getItem("produit"));
+
+  function checkLocalStorage() {
+    //s'il y a déjà quelque chose
+    if(productInLocalStorage) {
+      productInLocalStorage.push(product);
+      localStorage.setItem("produit", JSON.stringify(productInLocalStorage));
+      console.log(productInLocalStorage);
+      console.log(product);
+      howContinue();
+    }
+    //s'il n'y a rien
+    else {
+      productInLocalStorage = [];
+      productInLocalStorage.push(product);
+      console.log(productInLocalStorage);
+      localStorage.setItem("produit", JSON.stringify(productInLocalStorage));
+      howContinue();
+    }
+  }
 
   formProduct.addEventListener("submit", (e) => {
-      console.log(colorChoice);
-      if (colorChoice == 'choisissez une couleur') {
-          alert('choisissez une couleur');
+      
+      if (product.teddyColor == "" || product.teddyColor == "choisissez une couleur") {
+          alert('Choisissez une couleur');
           e.preventDefault();
       }
       else {
-        e.preventDefault();
-          alert("L'article a été ajouté au panier")
-          products.push(product);
-          console.log(colorChoice);
-          // Permet d'envoyer dans le local storage le contenu en format JSON
-          localStorage.setItem("article", JSON.stringify(products));}
+          e.preventDefault();
+          checkLocalStorage();
+          ;}
+
   }, false);
 
 
