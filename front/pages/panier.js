@@ -10,7 +10,7 @@ function displayArticleInLocalStorage() {
           <div class="basket-product__name">${productInLocalStorage[i].teddyName}</div>
           <div class="basket-product__couleur">${productInLocalStorage[i].teddyColor}</div>
           <div class="basket-product__prix">${productInLocalStorage[i].teddyPrice/100}€</div>
-          <div class="basket-product__delete"><a href="" class="delete" id="delete${[i]}">Supprimer l'article</a></div>
+          <div class="basket-product__delete"><button class="delete" id="delete${[i]}">Supprimer l'article</button></div>
         </div>`;
     }
   }
@@ -42,18 +42,12 @@ console.log(productInLocalStorage.length);
 
 
 
-    document.querySelectorAll('basket-product__delete').forEach((a,j) => a.addEventListener('click', () =>  deleteItemSelect(j)),
+let buttonDelete = document.querySelectorAll('.delete');
 // Dans LocalStorage : suppression de l'article sélectionné //
-
-function deleteItemSelect(j) {
-    console.log(productInLocalStorage);
-	productInLocalStorage.splice(index, 1);
-	productInLocalStorage.setItem('product', JSON.stringify(product));
- 
-    if (productInLocalStorage.length === 0) {
-        localStorage.removeItem('product');
-    }
+for (i=0; i < buttonDelete.length; i++) {
+  buttonDelete[i].addEventListener("click", e => {
     
-
-    });
+    productInLocalStorage.splice([i],1);
+  })
+}
 
