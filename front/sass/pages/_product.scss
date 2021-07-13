@@ -2,6 +2,15 @@
   width: 500px;
   height: 500px;
   object-fit: cover;
+  @media (max-width: 992px) {
+    width:300px;
+    height:300px;
+    flex-direction:column;
+  }
+  @media (max-width: 768px) {
+    width:100%;
+    height: 400px;
+  }
 }
 
 .thearticle {
@@ -9,19 +18,28 @@
   width: 80%;
   margin: auto;
   padding: 20px;
+  
 }
+
 #thearticle-container {
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
+  @media (max-width: 768px) {
+    width:100%;
+    flex-direction:column;
+  }
 }
 
 .thearticle__name {
-    font-size:1.3em;
+  font-size: 1.3em;
 }
 .thearticle__content {
   width: 30%;
   margin: auto;
+  @media (max-width: 768px) {
+    width:100%;
+  }
 }
 
 .thearticle__description {
@@ -31,42 +49,58 @@
 }
 
 .thearticle__price {
-    text-align: right;
-    font-size: 1.5em;
+  text-align: right;
+  font-size: 1.5em;
 }
 
 .choose {
   width: 100%;
   margin-top: 10px;
-
 }
 
 .choose form {
   display: flex;
-
   align-items: center;
+  @media (max-width: 768px) {
+    width:100%;
+    flex-direction:column;
+    flex-wrap: wrap;
+  }
 }
-
 
 .couleur-container {
-    display: flex;
-    width: 500px;
+  display: flex;
+  width: 500px;
+  @media (max-width: 768px) {
+    width:100%;
+    flex-direction:column;
+    flex-wrap: wrap;
+  }
 }
 
-select, button {
-    border-radius: 0px;
-    border: none;
+select,
+button {
+  border-radius: 0px;
+  border: none;
 }
 
 #submit {
-    font-size: 1.1em;
-    padding:5px;
+  font-size: 1.1em;
+  padding: 5px;
+  height: 36px;
+}
+
+#couleur {
+  font-size: 1em;
 }
 
 .button-container {
-    display:flex;
-    width: 30%;
-margin: auto;
-justify-content: center;
-cursor: pointer;
+  display: flex;
+  width: 30%;
+  margin: auto;
+  justify-content: center;
+  cursor: pointer;
+  @media (max-width: 768px) {
+    width:100%;
+  }
 }
