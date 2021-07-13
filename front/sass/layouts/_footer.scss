@@ -1,3 +1,14 @@
 footer {
     margin-top: 60px;
+    padding-top: 20px;
+}
+
+ul {
+    display:flex;
+    flex-direction: row;
+    padding-left: 0;
+    justify-content:space-around;
+}
+li {
+    list-style-type: none;
 }

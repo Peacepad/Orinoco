@@ -41,7 +41,7 @@ function cart() {
 cart();
 
 
-
+// Fonction pour supprimer du panier
 function suppr() {
   for (let k = 0; k < productInLocalStorage.length; k++) {
     document.querySelector(`#delete${[k]}`).addEventListener(
@@ -59,3 +59,13 @@ function suppr() {
 
 suppr();
 
+
+//Faire le total des éléments du panier
+function total() {
+  let sum = 0
+for (let l = 0; l < productInLocalStorage.length; l++) {
+  sum = sum + productInLocalStorage[l].teddyPrice;
+  document.querySelector('.total').innerHTML = `<p>Total de votre commande: ${sum/100}€</p>`
+}}
+
+total();

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Orinoco - Votre panier</title>
+    <link rel="stylesheet" type="text/css" href="../css/style.css" />
+    <script
+      src="https://kit.fontawesome.com/8ee2930e57.js"
+      crossorigin="anonymous"
+    ></script>
+    
+  </head>
+  <body>
+    <header>
+      <a href="../index.html"
+        ><img src="../images/Orinoco-logo.png" alt="Logo de Ornico"
+      /></a>
+      <a href="panier.html"><img class="shopping" src="../images/ourscart.png" alt="ours faisant du shopping"/><i class="fas fa-shopping-cart"></i></a>
+    </header>
+
+    <main id="confirmation-container">
+      <form id="contact-information">
+          <label for="firstName">Votre Prénom</label>
+          <input type="text" id="firstName" minlength="3" maxlength="16" required/>
+          <label for="lastName" >Votre nom</label>
+          <input type="text" id="lastName" maxlength="16" required/>
+
+          <fieldset>
+              <legend>Votre adresse</legend>
+          <label for="adress">(n°) Rue</label>
+          <input type="text" id="adress" placeholder="4 rue Victor Hugo" required/>
+          <label for="postal-code">Code Postal</label>
+          <input type="number" id="postal-code" required/>
+          <label for="city">Ville</label>
+          <input type="city" id="city" required/>
+        </fieldset>
+
+        <label for="email">Votre adresse mail</label>
+        <input type="email" id="email" required/>
+
+        <p>
+          <input type="submit" value="Envoyer" />
+        </p>
+      </form>
+    </main>
+
+    <footer></footer>
+    <script src="confirmation.js"></script>
+  </body>
+</html>
