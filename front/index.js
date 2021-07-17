@@ -18,7 +18,7 @@ function getTeddies() {
 async function main() {
   const teddies = await getTeddies();
   for (teddy of teddies) {
-    displayTeddies(teddy);
+    displayTeddies();
   }
 }
 

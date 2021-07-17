@@ -3,7 +3,7 @@ let justId = params.get("id");
 
 console.log(justId);
 
-let products = [];
+
 const selectForm = document.querySelector("#couleur");
 const zoneAffichage = document.getElementById("thearticle-container");
 const formProduct = document.querySelector('#form-for-product');
@@ -27,9 +27,10 @@ function getTheTeddy() {
 async function main() {
   //fonction pour avoir tout les oursons dans le tableau donné dans getTeddies
   const teddy = await getTheTeddy();
+
   const colors = teddy.colors;
 
-  showtheArticle(teddy);
+  displaytheArticle(teddy);
 
   for (color of colors) {
     addOption(color);
@@ -39,8 +40,8 @@ async function main() {
   goToBasket();
 }
 
-function showtheArticle(teddy) {
-  //console.log(theArticle);
+function displaytheArticle(teddy) {
+  
   zoneAffichage.innerHTML = `
     <div class="thearticle__image">
       <img src="${teddy.imageUrl}" alt="Image de l'ours ${teddy.name}"/>
@@ -61,7 +62,7 @@ function addOption() {
 
 
 
-// fonction pour ressortir la couleur selectionnée dans le select
+
 
 
 async function goToBasket() {
@@ -98,7 +99,8 @@ async function goToBasket() {
     }
   };
 
-  //Verification du local Storage
+
+
   let productInLocalStorage = JSON.parse(localStorage.getItem("produit"));
 
   function checkLocalStorage() {

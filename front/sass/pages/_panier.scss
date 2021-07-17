@@ -1,13 +1,14 @@
-#basket-container {
+#cart-container {
     width: 90%;
     display:flex;
     flex-direction: column;
     margin:auto;
     justify-content: center;
     align-items: center;
+    margin-bottom: 50px;
 }
 
-.basket-product__container {
+.cart-product__container {
     display: flex;
     width: 60%;
     margin: auto;
@@ -15,7 +16,7 @@
     text-align: center;
   }
   
-  .basket-product {
+  .cart-product {
     display: flex;
     justify-content: space-between;
     height:30px;
@@ -33,10 +34,46 @@
   
 
 
-.empty-basket {
+.empty-cart {
     text-align: center;
 }
 
 .delete {
     cursor:pointer;
 }
+  
+#contact-information {
+    
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin:auto;
+    background-color: $font-color;
+    padding:20px;
+    width: 80%;
+    & input {
+      width: 200px;
+      margin-bottom: 20px;
+    }
+    & fieldset {
+        width: 70%;
+      display: flex;
+      flex-direction: row;
+      padding:20px;
+      margin-bottom: 50px;
+    }
+    & p {
+      font-size: 1.1em;
+    }
+  }
+  
+  #firstname, #number, #voie {
+    margin-right: 10px;
+    margin-left: 10px;
+  }
+  
+  #lastname, #city, #email {
+    margin-left: 10px;
+  
+  }
+  
