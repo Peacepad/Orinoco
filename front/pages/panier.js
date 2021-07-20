@@ -18,7 +18,7 @@ function displayArticleInLocalStorage() {
           }€</div>
           <div class="cart-product__delete"><button class="delete" id="delete${[
             i,
-          ]}">Supprimer l'article</button></div>
+          ]}"><i class="fas fa-trash-alt"></i></button></div>
         </div>`;
   }
 }
@@ -31,7 +31,8 @@ function checkProductInLocalStorage() {
   } else {
     console.log("le panier est rempli");
     displayArticleInLocalStorage();
-    document.querySelector('.delete-cart').innerHTML = '<button class="delete-all__btn">Vider le panier</button>';
+    document.querySelector(".delete-cart").innerHTML =
+      '<button class="delete-all__btn">Vider le panier</button>';
     displayForm();
   }
 }
@@ -41,7 +42,6 @@ function cart() {
 }
 
 cart();
-
 
 // Fonction pour supprimer du panier
 function suppr() {
@@ -61,39 +61,42 @@ function suppr() {
 
 suppr();
 
-
 //Faire le total des éléments du panier
 function total() {
-  let sum = 0
-for (let l = 0; l < productInLocalStorage.length; l++) {
-  sum = sum + productInLocalStorage[l].teddyPrice;
-  document.querySelector('.total').innerHTML = `<p>Total de votre commande: ${sum/100}€</p>`
-}}
+  let sum = 0;
+  for (let l = 0; l < productInLocalStorage.length; l++) {
+    sum = sum + productInLocalStorage[l].teddyPrice;
+    document.querySelector(".total").innerHTML = `<p>Total de votre commande: ${
+      sum / 100
+    }€</p>`;
+  }
+}
 
 total();
 
-const deleteCartButton = document.querySelector('.delete-cart');
+const deleteCartButton = document.querySelector(".delete-cart");
 
 function deleteCart() {
   let l = productInLocalStorage.length;
   console.log(l);
-    deleteCartButton.addEventListener(
-      "click",
-      (ev) => {
-        productInLocalStorage.splice(0, [l]);
-        console.log(productInLocalStorage);
-        localStorage.setItem("produit", JSON.stringify(productInLocalStorage));
-        document.location.reload();
-      },
-      false
-    );
-  }
+  deleteCartButton.addEventListener(
+    "click",
+    (ev) => {
+      productInLocalStorage.splice(0, [l]);
+      console.log(productInLocalStorage);
+      localStorage.setItem("produit", JSON.stringify(productInLocalStorage));
+      document.location.reload();
+    },
+    false
+  );
+}
 
-
-deleteCart()
+deleteCart();
 
 function displayForm() {
-  document.querySelector('#cart-form').innerHTML = `<form id="contact-information">
+  document.querySelector(
+    "#cart-form"
+  ).innerHTML = `<form id="contact-information">
   <p>Félicitations, votre commande est presque prête ! Il ne vous reste plus qu'à nous dire où l'envoyer.</p>
     
   <fieldset>
@@ -125,34 +128,85 @@ function displayForm() {
 </form>`;
 }
 
-
-
-
 async function sendOrder() {
-fetch(": http://localhost:3000/get/", {
-	method: "POST",
-	headers: { 
-'Accept': 'application/json', 
-'Content-Type': 'application/json' 
-},
-	body: JSON.stringify(order)
-});
+  fetch(": http://localhost:3000/get/", {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(order),
+  });
 }
 
-document.querySelector('#contact-information').addEventListener("submit", (e) => {
-      
-  const firstname = document.getElementById('firstname').value;
-  const lastname = document.getElementById('lastname').value;
-  const number = document.getElementById('number').value;
-  const voie = document.getElementById('voie').value;
-  const city = document.getElementById('city').value;
-  const mail = document.getElementById('email').value;
+document.querySelector("#contact-information").addEventListener(
+  "submit",
+  (e) => {
+    //Récupérer la valeur des champs
+    const firstname = document.getElementById("firstname").value;
+    const lastname = document.getElementById("lastname").value;
+    const number = document.getElementById("number").value;
+    const voie = document.getElementById("voie").value;
+    const city = document.getElementById("city").value;
+    const mail = document.getElementById("email").value;
 
-  console.log(firstname);
-  console.log("Commande envoyée dans l'espace");
-  e.preventDefault(); 
-}, false);
+    const collectProductsInLocalStorage = JSON.parse(
+      localStorage.getItem("produit")
+    );
+    //Récupérer juste l'iD des produits dans le tableau
+    const prods = collectProductsInLocalStorage.map((produit) => produit.teddyId);
 
-function verifyForm() {
+    const contact = {
+      firstName: firstname,
+      lastName: lastname,
+      address: number + " " + voie,
+      city: city,
+      email: mail,
+    };
 
-}
+    const order = {
+      contact,
+      products: prods,
+    };
+
+    function sendInfo() {
+      fetch("http://localhost:3000/api/teddies/order", {
+        method: "post",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(order),
+      })
+      .then(function (response) {
+        console.log("ok");
+        return response.json();
+      })
+      .then (function(data) {
+        console.log(data.orderId);
+        localStorage.setItem("orderId", data.orderId);
+        localStorage.removeItem("produit");
+        window.location = "confirmation.html";
+      })
+      .catch(function (error) {
+        console.log("error in function sendInfo !");
+      });
+    }
+
+    sendInfo();
+
+
+
+        
+    
+    e.preventDefault()
+
+
+
+  },
+
+
+  false
+);
+
+
+

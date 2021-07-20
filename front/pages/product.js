@@ -72,7 +72,7 @@ async function goToBasket() {
      // Définition d'un article
      let product = {
       teddyName : teddy.name,
-      teddyID: teddy._id,
+      teddyId: teddy._id,
       teddyColor: "",
       teddyPrice: teddy.price,
       };

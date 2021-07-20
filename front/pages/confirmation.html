@@ -20,40 +20,9 @@
     </header>
 
     <main id="confirmation-container">
-
-      
-      <form id="contact-information">
-        <p>Félicitations, votre commande est presque prête ! Il ne vous reste plus qu'à nous dire où l'envoyer.</p>
-          
-        <fieldset>
-          <legend>Votre identité</legend>
-        <label for="firstName">Votre Prénom</label>
-          <input type="text" id="firstName" pattern="[a-zA-Z-]*" maxlength="16" placeholder="a" required/>
-          <label for="lastName" >Votre nom</label>
-          <input type="text" id="lastName" maxlength="16" pattern="[a-zA-Z-]*" required/>
-          </fieldset>
-          <fieldset>
-              <legend>Votre adresse</legend>
-          <label for="number">N°</label>
-          <input type="number" id="number" onkeydown="return event.keyCode !== 69 && event.keyCode !== 109 && event.keyCode !== 107 && event.keyCode !== 190 && event.keyCode !== 110"/>
-          <label for="voie">Voie</label>
-          <input type="voie" id="voie"  required/>
-          <label for="postal-code">Code Postal</label>
-          <input type="number" id="postal-code" step="100" pattern="[0-9]{5}" onkeydown="return event.keyCode !== 69 && event.keyCode !== 109 && event.keyCode !== 107 && event.keyCode !== 190 && event.keyCode !== 110" required/>
-          <label for="city">Ville</label>
-          <input type="city" id="city"  required/>
-        </fieldset>
-
-
-        <fieldset>
-          <legend>Information supplémentaire</legend>
-        <label for="email">Votre adresse mail</label>
-        <input type="email" id="email" required/>
-      </fieldset>
-        
-          <input type="submit" value="Envoyer" />
-        
-      </form>
+      <p>Votre commande à bien été pris en compte. Votre numéro de commande est le :</p>
+      <p id="order-id"></p>
+ 
     </main>
 
     <footer></footer>
