@@ -1,7 +1,40 @@
-* {font-family: Arial, Helvetica, sans-serif;}
+* { font-family: 'Roboto', sans-serif;}
 
 .product__name {
     font-family: 'Otomanopee One', sans-serif;
     
 
+}
+
+
+
+.main-presentation {
+    font-size: 1.2em;
+    & .classic {
+        font-size: 1.3em;
+    }
+    & h1 {
+        font-family: 'Lobster', cursive;
+        padding-bottom: 20px;
+    }
+}
+
+.classic {
+    font-family: 'Dancing Script', cursive;
+}
+
+.product__name {
+    font-size: 1.4em;
+}
+
+.thearticle h1 {
+    font-family: 'Dancing Script', cursive;
+}
+
+.thearticle__description {
+    font-size: 1.2em;
+}
+
+.thearticle__price {
+    font-family: Arial, Helvetica, sans-serif;
 }

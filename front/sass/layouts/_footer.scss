@@ -1,6 +1,9 @@
 footer {
     margin-top: 60px;
-    padding-top: 20px;
+  
+    font-size: 1em;
+    height: 40px;
+    background-color: $color-primary;
 }
 
 ul {
@@ -8,7 +11,15 @@ ul {
     flex-direction: row;
     padding-left: 0;
     justify-content:space-around;
+    width: 100%;
+    height: 100%;
+    align-items: center;
 }
 li {
     list-style-type: none;
+}
+
+footer a {
+    color:black;
+    text-decoration: none;
 }

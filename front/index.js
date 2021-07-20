@@ -1,3 +1,5 @@
+let productInLocalStorage = JSON.parse(localStorage.getItem("produit"));
+
 //fonction pour récupérer la liste des oursons
 function getTeddies() {
   return fetch("http://localhost:3000/api/teddies")
@@ -30,7 +32,7 @@ function displayTeddies() {
       <img src="${teddy.imageUrl}" alt="Image de l'ours ${teddy.name}"/>
     </div>
     <div class="product__content">
-      <div class="product__name">${teddy.name}</div>
+      <div class="product__name"><span class="classic">${teddy.name}</span></div>
       <div class="product__price">${teddy.price / 100}€</div>  
     </div>
   </div>
@@ -39,3 +41,21 @@ function displayTeddies() {
 
 //Appel de la fonction
 main();
+
+
+function numberProductInLocalStorage() {
+  if (
+    localStorage.getItem("produit") === null ||
+    productInLocalStorage.length == 0
+  ) {
+    console.log("0");
+  } else {
+    nb = 0;
+    for (let m = 0; m < productInLocalStorage.length; m++) {
+      nb++;
+  }
+  document.querySelector(".number-cart").innerText = `${nb}`
+}
+}
+
+numberProductInLocalStorage()

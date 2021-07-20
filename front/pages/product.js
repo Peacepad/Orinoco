@@ -1,5 +1,6 @@
 let params = new URL(document.location).searchParams;
 let justId = params.get("id");
+let productInLocalStorage = JSON.parse(localStorage.getItem("produit"));
 
 console.log(justId);
 
@@ -50,7 +51,7 @@ function displaytheArticle(teddy) {
       <div class="thearticle__name">
         <h1>${teddy.name}</h1>
       </div>
-      <div class="thearticle__description">${teddy.description}</div>
+      <div class="thearticle__description">"${teddy.description}"</div>
       <div class="thearticle__price">${teddy.price/100}<sup>€</sup></div>
     </div>
     `;
@@ -124,8 +125,8 @@ async function goToBasket() {
 
   formProduct.addEventListener("submit", (e) => {
       
-      if (product.teddyColor == "" || product.teddyColor == "choisissez une couleur") {
-          alert('Choisissez une couleur');
+      if (product.teddyColor == "" || product.teddyColor == "Selectionner une couleur") {
+          alert("N'oubliez pas de choisir une couleur pour votre ourson.");
           e.preventDefault();
       }
       else {
@@ -145,3 +146,20 @@ main();
 
 
 
+
+function numberProductInLocalStorage() {
+  if (
+    localStorage.getItem("produit") === null ||
+    productInLocalStorage.length == 0
+  ) {
+    console.log("0");
+  } else {
+    nb = 0;
+    for (let m = 0; m < productInLocalStorage.length; m++) {
+      nb++;
+  }
+  document.querySelector(".number-cart").innerText = `${nb}`
+}
+}
+
+numberProductInLocalStorage()

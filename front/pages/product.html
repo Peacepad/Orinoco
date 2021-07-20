@@ -10,13 +10,20 @@
       crossorigin="anonymous"
     ></script>
 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&family=Lobster&family=Roboto&display=swap" rel="stylesheet">
+
   </head>
   <body>
     <header>
       <a href="../index.html"
-        ><img src="../images/Orinoco-logo.png" alt="Logo de Ornico"
+        ><img src="../images/Orinoco-logo.png" alt="Logo de Ornico" id="Orinoco-logo"
       /></a>
-      <a href="panier.html"><img class="shopping" src="../images/ourscart.png" alt="ours faisant du shopping"/><i class="fas fa-shopping-cart"></i></a>
+      <a href="panier.html"
+        ><img src="../images/cart.png" alt="ours faisant du shopping"/></a
+      >
+      <div class="number-cart"></div>
     </header>
 
     <main class="thearticle">
@@ -25,18 +32,16 @@
     <div class="choose">
       <form id="form-for-product" method="get" action="panier.html">
         <p class="couleur-container">
-          <label for="couleur">
-            Choisissez une couleur pour rendre votre ourson unique !
-          </label>
-          <br />
+          
+          
           <select name="couleur" id="couleur">
-            <option value="choisissez une couleur">Choisissez une couleur</option>
+            <option value="Selectionner une couleur">Selectionner une couleur</option>
           </select>
         </p>
 
         <p class="button-container">
           <button id="submit" type="envoyer">
-            Ajouter au panier
+            Ajouter au panier <i class="fas fa-shopping-cart"></i>
           </button>
         </p>
       </form>
@@ -45,7 +50,19 @@
     </div>
   </main>
 
-    <footer></footer>
+  <footer>
+    <ul>
+      <li>
+        <a href="#">Nous contacter</a>
+      </li>
+      <li><a href="#">Qui sommes nous ?</a></li>
+      <li>
+        <a href="#">Conditions Générales de vente</a>
+      </li>
+      <li>© Copyright 2021</li>
+    </ul>
+  </footer>
+
   </body>
   <script src="product.js"></script>
 </html>

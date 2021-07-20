@@ -1,8 +1,31 @@
 * {
-  font-family: Arial, Helvetica, sans-serif; }
+  font-family: 'Roboto', sans-serif; }
 
 .product__name {
   font-family: 'Otomanopee One', sans-serif; }
+
+.main-presentation {
+  font-size: 1.2em; }
+  .main-presentation .classic {
+    font-size: 1.3em; }
+  .main-presentation h1 {
+    font-family: 'Lobster', cursive;
+    padding-bottom: 20px; }
+
+.classic {
+  font-family: 'Dancing Script', cursive; }
+
+.product__name {
+  font-size: 1.4em; }
+
+.thearticle h1 {
+  font-family: 'Dancing Script', cursive; }
+
+.thearticle__description {
+  font-size: 1.2em; }
+
+.thearticle__price {
+  font-family: Arial, Helvetica, sans-serif; }
 
 header {
   display: flex;
@@ -12,24 +35,20 @@ header {
   padding-left: 20px;
   padding-right: 20px;
   align-items: center;
-  height: 60px;
+  height: 70px;
   background-color: #f2e8f0;
-  box-sizing: border-box;
-  margin-bottom: 50px; }
-  header img {
-    height: 50px; }
-  header i {
-    font-size: 1.1em;
-    text-decoration: none;
-    color: black; }
-  header a:hover {
-    color: #5784ba; }
+  margin-bottom: 50px;
+  position: relative;
+  box-sizing: border-box; }
+  header #Orinoco-logo {
+    height: 70px; }
 
-.shopping {
-  height: 30px;
+.number-cart {
   position: absolute;
-  right: 39px;
-  top: 8px; }
+  right: 32px;
+  top: 15px;
+  color: #5784ba;
+  background-color: #f2e8f0; }
 
 #product-container {
   display: flex;
@@ -39,13 +58,14 @@ header {
   width: 90%;
   margin: auto;
   background-color: #f2e8f0;
-  padding-top: 40px; }
+  padding-top: 40px;
+  max-width: 1470px; }
   @media (max-width: 576px) {
     #product-container {
       width: 100%; } }
 
 #product-container a {
-  width: 26%;
+  width: 370px;
   margin-bottom: 30px;
   color: black;
   text-decoration: none; }
@@ -112,7 +132,8 @@ header {
   margin-bottom: 50px;
   background-color: #f2e8f0;
   padding: 20px;
-  position: relative; }
+  position: relative;
+  max-width: 1470px; }
   @media (max-width: 576px) {
     .main-presentation {
       width: 100%; } }
@@ -189,16 +210,25 @@ header {
 
 footer {
   margin-top: 60px;
-  padding-top: 20px; }
+  font-size: 1em;
+  height: 40px;
+  background-color: #f2e8f0; }
 
 ul {
   display: flex;
   flex-direction: row;
   padding-left: 0;
-  justify-content: space-around; }
+  justify-content: space-around;
+  width: 100%;
+  height: 100%;
+  align-items: center; }
 
 li {
   list-style-type: none; }
+
+footer a {
+  color: black;
+  text-decoration: none; }
 
 .thearticle__image img {
   width: 500px;
@@ -263,7 +293,8 @@ li {
 
 .couleur-container {
   display: flex;
-  width: 500px; }
+  width: 500px;
+  justify-content: flex-end; }
   @media (max-width: 768px) {
     .couleur-container {
       width: 100%;
@@ -277,9 +308,15 @@ button {
   cursor: pointer; }
 
 #submit {
-  font-size: 1.1em;
+  font-size: 1em;
   padding: 5px;
-  height: 36px; }
+  height: 21px;
+  background-color: white;
+  display: flex;
+  align-items: center; }
+  #submit i {
+    font-size: 1em;
+    margin-left: 5px; }
 
 #couleur {
   font-size: 1em; }
@@ -298,10 +335,9 @@ body,
 html {
   margin: 0; }
 
-footer {
-  width: 100%;
-  height: 60px;
-  background-color: #f2e8f0;
+*,
+*::before,
+*::after {
   box-sizing: border-box; }
 
 /*# sourceMappingURL=style.css.map */

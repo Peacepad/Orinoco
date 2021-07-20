@@ -71,6 +71,7 @@
 .couleur-container {
   display: flex;
   width: 500px;
+  justify-content: flex-end;
   @media (max-width: 768px) {
     width:100%;
     flex-direction:column;
@@ -86,9 +87,16 @@ button {
 }
 
 #submit {
-  font-size: 1.1em;
+  font-size: 1em;
   padding: 5px;
-  height: 36px;
+  height: 21px;
+  background-color: white;
+  display:flex;
+  align-items: center;
+  & i {
+    font-size: 1em;
+    margin-left: 5px;
+  }
 }
 
 #couleur {

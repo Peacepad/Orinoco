@@ -6,29 +6,20 @@ header {
   padding-left: 20px;
   padding-right: 20px;
   align-items: center;
-  height: 60px;
+  height: 70px;
   background-color: $color-primary;
-  box-sizing: border-box;
   margin-bottom: 50px;
-  & img {
-    height: 50px;
-    
+  position: relative;
+  box-sizing: border-box;
+  & #Orinoco-logo {
+    height: 70px;
   }
-  & i {
-    font-size: 1.1em;
-    text-decoration: none;
-    color: black;
-  }
-  & a:hover {
-    color: $font-color;
-  }
+ }
 
-}
-
-.shopping {
-  height:30px;
-  position:absolute;
-  right:39px;
-  top:8px;
-
+.number-cart {
+  position: absolute;
+  right:32px;
+  top: 15px;
+  color: $font-color;
+  background-color: $color-primary;
 }

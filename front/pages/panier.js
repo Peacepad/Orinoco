@@ -1,5 +1,5 @@
 let productInLocalStorage = JSON.parse(localStorage.getItem("produit"));
-
+const deleteCartButton = document.querySelector(".delete-cart");
 //console.log(productInLocalStorage);
 const displayArea = document.querySelector(".cart-product__container");
 
@@ -24,7 +24,10 @@ function displayArticleInLocalStorage() {
 }
 
 function checkProductInLocalStorage() {
-  if (productInLocalStorage.length === 0) {
+  if (
+    localStorage.getItem("produit") === null ||
+    productInLocalStorage.length == 0
+  ) {
     console.log("le panier est vide");
     displayArea.innerHTML = `<p class="empty-cart">Votre panier est vide<br/>
         <a href="../index.html" title="Revenir à l'accueil">Revenir à l'accueil</a></p>`;
@@ -34,14 +37,14 @@ function checkProductInLocalStorage() {
     document.querySelector(".delete-cart").innerHTML =
       '<button class="delete-all__btn">Vider le panier</button>';
     displayForm();
+    suppr();
+    total();
+    deleteCart();
+    listenButton()
   }
 }
 
-function cart() {
-  checkProductInLocalStorage();
-}
-
-cart();
+checkProductInLocalStorage();
 
 // Fonction pour supprimer du panier
 function suppr() {
@@ -59,8 +62,6 @@ function suppr() {
   }
 }
 
-suppr();
-
 //Faire le total des éléments du panier
 function total() {
   let sum = 0;
@@ -72,9 +73,7 @@ function total() {
   }
 }
 
-total();
 
-const deleteCartButton = document.querySelector(".delete-cart");
 
 function deleteCart() {
   let l = productInLocalStorage.length;
@@ -90,8 +89,6 @@ function deleteCart() {
     false
   );
 }
-
-deleteCart();
 
 function displayForm() {
   document.querySelector(
@@ -138,75 +135,85 @@ async function sendOrder() {
     body: JSON.stringify(order),
   });
 }
+function listenButton() {
+  document.querySelector("#contact-information").addEventListener(
+    "submit",
+    (e) => {
+      //Récupérer la valeur des champs
+      const firstname = document.getElementById("firstname").value;
+      const lastname = document.getElementById("lastname").value;
+      const number = document.getElementById("number").value;
+      const voie = document.getElementById("voie").value;
+      const city = document.getElementById("city").value;
+      const mail = document.getElementById("email").value;
 
-document.querySelector("#contact-information").addEventListener(
-  "submit",
-  (e) => {
-    //Récupérer la valeur des champs
-    const firstname = document.getElementById("firstname").value;
-    const lastname = document.getElementById("lastname").value;
-    const number = document.getElementById("number").value;
-    const voie = document.getElementById("voie").value;
-    const city = document.getElementById("city").value;
-    const mail = document.getElementById("email").value;
+      const collectProductsInLocalStorage = JSON.parse(
+        localStorage.getItem("produit")
+      );
+      //Récupérer juste l'iD des produits dans le tableau
+      const prods = collectProductsInLocalStorage.map(
+        (produit) => produit.teddyId
+      );
 
-    const collectProductsInLocalStorage = JSON.parse(
-      localStorage.getItem("produit")
-    );
-    //Récupérer juste l'iD des produits dans le tableau
-    const prods = collectProductsInLocalStorage.map((produit) => produit.teddyId);
+      const contact = {
+        firstName: firstname,
+        lastName: lastname,
+        address: number + " " + voie,
+        city: city,
+        email: mail,
+      };
 
-    const contact = {
-      firstName: firstname,
-      lastName: lastname,
-      address: number + " " + voie,
-      city: city,
-      email: mail,
-    };
+      const order = {
+        contact,
+        products: prods,
+      };
 
-    const order = {
-      contact,
-      products: prods,
-    };
+      function sendInfo() {
+        fetch("http://localhost:3000/api/teddies/order", {
+          method: "post",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(order),
+        })
+          .then(function (response) {
+            console.log("ok");
+            return response.json();
+          })
+          .then(function (data) {
+            console.log(data.orderId);
+            localStorage.setItem("orderId", data.orderId);
+            localStorage.removeItem("produit");
+            window.location = "confirmation.html";
+          })
+          .catch(function (error) {
+            console.log("error in function sendInfo !");
+          });
+      }
 
-    function sendInfo() {
-      fetch("http://localhost:3000/api/teddies/order", {
-        method: "post",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(order),
-      })
-      .then(function (response) {
-        console.log("ok");
-        return response.json();
-      })
-      .then (function(data) {
-        console.log(data.orderId);
-        localStorage.setItem("orderId", data.orderId);
-        localStorage.removeItem("produit");
-        window.location = "confirmation.html";
-      })
-      .catch(function (error) {
-        console.log("error in function sendInfo !");
-      });
-    }
+      sendInfo();
 
-    sendInfo();
+      e.preventDefault();
+    },
 
-
-
-        
-    
-    e.preventDefault()
-
-
-
-  },
-
-
-  false
-);
+    false
+  );
+}
 
 
+function numberProductInLocalStorage() {
+  if (
+    localStorage.getItem("produit") === null ||
+    productInLocalStorage.length == 0
+  ) {
+    console.log("0");
+  } else {
+    nb = 0;
+    for (let m = 0; m < productInLocalStorage.length; m++) {
+      nb++;
+  }
+  document.querySelector(".number-cart").innerText = `${nb}`
+}
+}
 
+numberProductInLocalStorage()
