@@ -32,7 +32,7 @@
 
 .product {
   width: 100%;
-  border: solid 2px $font-color;
+  border: solid 2px $back-color;
   background-color: #b6d8f2;
   position: relative;
   -webkit-box-shadow: 0px 0px 15px 1px rgba(0, 0, 0, 0.59);
@@ -46,7 +46,7 @@
   display: flex;
   flex-direction: column;
   justify-content: space-around;
-  background-color: $font-color;
+  background-color: $back-color;
   color: #f7f6cf;
 }
 
@@ -101,7 +101,7 @@
 .main-presentation::before {
   content: "";
   height: 50px;
-  background-color: $font-color;
+  background-color: $back-color;
   width: 100%;
   position:absolute;
   left:0px;

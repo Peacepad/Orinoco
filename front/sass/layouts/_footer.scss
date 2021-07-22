@@ -1,9 +1,10 @@
 footer {
     margin-top: 60px;
-  
     font-size: 1em;
-    height: 40px;
+    padding-top: 10px;
+    padding-bottom: 10px;
     background-color: $color-primary;
+
 }
 
 ul {
@@ -14,9 +15,16 @@ ul {
     width: 100%;
     height: 100%;
     align-items: center;
+    @media (max-width: 992px) {
+        flex-direction: column;
+    }
 }
 li {
     list-style-type: none;
+    @media (max-width: 992px) {
+        margin-bottom: 10px;
+        &:last-child {margin-bottom: 0;}
+    }
 }
 
 footer a {

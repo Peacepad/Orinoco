@@ -1,12 +1,21 @@
 let productInLocalStorage = JSON.parse(localStorage.getItem("produit"));
+
 const deleteCartButton = document.querySelector(".delete-cart");
+
 //console.log(productInLocalStorage);
 const displayArea = document.querySelector(".cart-product__container");
 
 function displayArticleInLocalStorage() {
+  displayArea.innerHTML += `
+    <div class="cart-product">
+          <div class="cart-product__name">Nom</div>
+          <div class="cart-product__couleur">Couleur</div>
+          <div class="cart-product__prix">Prix</div>
+          <div class="cart-product__delete">Supprimer</div>
+        </div>`;
   for (i = 0; i < productInLocalStorage.length; i++) {
     displayArea.innerHTML += `
-      <div class="cart-product">
+          <div class="cart-product">
           <div class="cart-product__name">${
             productInLocalStorage[i].teddyName
           }</div>
@@ -29,8 +38,9 @@ function checkProductInLocalStorage() {
     productInLocalStorage.length == 0
   ) {
     console.log("le panier est vide");
-    displayArea.innerHTML = `<p class="empty-cart">Votre panier est vide<br/>
-        <a href="../index.html" title="Revenir à l'accueil">Revenir à l'accueil</a></p>`;
+    displayArea.innerHTML = `<p class="empty-cart">Votre panier est vide.</br>
+    N'hésitez pas à le remplir d'oursons en peluches. Continuez à tout moment vos achats sur Orinoco.</br>
+        <a href="../index.html" title="Revenir à l'accueil"><button>Revenir à l'accueil</button></a></p>`;
   } else {
     console.log("le panier est rempli");
     displayArticleInLocalStorage();
@@ -39,8 +49,8 @@ function checkProductInLocalStorage() {
     displayForm();
     suppr();
     total();
-    deleteCart();
-    listenButton()
+    clearCart();
+    listenButton();
   }
 }
 
@@ -71,19 +81,19 @@ function total() {
       sum / 100
     }€</p>`;
   }
+  sessionStorage.setItem("totalPrice", sum);
 }
 
 
-
-function deleteCart() {
+function clearCart() {
   let l = productInLocalStorage.length;
   console.log(l);
   deleteCartButton.addEventListener(
     "click",
     (ev) => {
-      productInLocalStorage.splice(0, [l]);
+      localStorage.clear();
       console.log(productInLocalStorage);
-      localStorage.setItem("produit", JSON.stringify(productInLocalStorage));
+      sessionStorage.setItem("totalPrice", 0);
       document.location.reload();
     },
     false
@@ -135,6 +145,9 @@ async function sendOrder() {
     body: JSON.stringify(order),
   });
 }
+
+
+
 function listenButton() {
   document.querySelector("#contact-information").addEventListener(
     "submit",
@@ -181,8 +194,9 @@ function listenButton() {
             return response.json();
           })
           .then(function (data) {
-            console.log(data.orderId);
-            localStorage.setItem("orderId", data.orderId);
+            
+            sessionStorage.setItem("orderId", data.orderId);
+            
             localStorage.removeItem("produit");
             window.location = "confirmation.html";
           })
@@ -200,7 +214,6 @@ function listenButton() {
   );
 }
 
-
 function numberProductInLocalStorage() {
   if (
     localStorage.getItem("produit") === null ||
@@ -211,9 +224,10 @@ function numberProductInLocalStorage() {
     nb = 0;
     for (let m = 0; m < productInLocalStorage.length; m++) {
       nb++;
+    }
+    document.querySelector(".number-cart").innerText = `${nb}`;
   }
-  document.querySelector(".number-cart").innerText = `${nb}`
-}
 }
 
-numberProductInLocalStorage()
+numberProductInLocalStorage();
+

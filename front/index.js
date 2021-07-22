@@ -11,7 +11,7 @@ function getTeddies() {
       return teddies;
     })
     .catch(function (error) {
-      console.log("error in function getTeddies");
+      console.log("erreur au niveau de la requête");
     });
 }
 
