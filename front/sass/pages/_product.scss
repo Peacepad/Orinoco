@@ -94,8 +94,8 @@ button {
   font-size: 1.5em;
   color: #ffffff;
   text-decoration: none;
-  background-color: #3498db;
-  text-shadow: 0px -2px #2980b9;
+  background-color: $btn-color;
+
   transition: transform 200ms cubic-bezier(0.39, -0.48, 0.41, 1.57);
 
   & i {
@@ -113,13 +113,12 @@ button {
 
 #couleur {
   padding: 10px 20px;
- 
   font-family: "Pacifico", cursive;
   font-size: 1.5em;
   color: white;
   text-decoration: none;
-  background-color: #3498db;
-  text-shadow: 0px -2px #2980b9;
+  background-color: $btn-color;
+
   height: 62px;
   margin: 0;
   width: 100%;

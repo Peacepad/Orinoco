@@ -5,6 +5,7 @@ const deleteCartButton = document.querySelector(".delete-cart");
 //console.log(productInLocalStorage);
 const displayArea = document.querySelector(".cart-product__container");
 
+// Afficher les produits dans le panier---------------------------------------
 function displayArticleInLocalStorage() {
   displayArea.innerHTML += `
     <div class="cart-product">
@@ -32,6 +33,7 @@ function displayArticleInLocalStorage() {
   }
 }
 
+// Vérifier si le panier est vide-------------------------------------------------
 function checkProductInLocalStorage() {
   if (
     localStorage.getItem("produit") === null ||
@@ -56,7 +58,7 @@ function checkProductInLocalStorage() {
 
 checkProductInLocalStorage();
 
-// Fonction pour supprimer du panier
+// Fonction pour supprimer du panier-----------------------------------------------
 function suppr() {
   for (let k = 0; k < productInLocalStorage.length; k++) {
     document.querySelector(`#delete${[k]}`).addEventListener(
@@ -72,7 +74,7 @@ function suppr() {
   }
 }
 
-//Faire le total des éléments du panier
+// Faire le total des éléments du panier------------------------------------------
 function total() {
   let sum = 0;
   for (let l = 0; l < productInLocalStorage.length; l++) {
@@ -84,6 +86,7 @@ function total() {
   sessionStorage.setItem("totalPrice", sum);
 }
 
+// Vider le panier----------------------------------------------------------------
 function clearCart() {
   let l = productInLocalStorage.length;
   console.log(l);
@@ -99,6 +102,7 @@ function clearCart() {
   );
 }
 
+// Afficher le formulaire-----------------------------------------------------------
 function displayForm() {
   document.querySelector(
     "#cart-form"
@@ -108,12 +112,12 @@ function displayForm() {
   <fieldset>
     <legend>Votre identité</legend>
     <p>
-    <label for="firstname">Votre Prénom</label>
+    <label for="firstname">Prénom</label>
     <input type="text" id="firstname" required/>
     <small></small>
     </p>
     <p>
-    <label for="lastname" >Votre nom</label>
+    <label for="lastname">Nom</label>
     <input type="text" id="lastname" required/>
     <small></small>
     </p>
@@ -139,7 +143,7 @@ function displayForm() {
     <fieldset>
     <legend>Information supplémentaire</legend>
     <p>
-    <label for="email">Votre adresse mail</label>
+    <label for="email">Adresse mail</label>
     <input type="email" id="email" required/>
     <small></small>
     </p>
@@ -150,6 +154,7 @@ function displayForm() {
 </form>`;
 }
 
+// Contacter le serveur------------------------------------------------------------
 async function sendOrder() {
   fetch(": http://localhost:3000/get/", {
     method: "POST",
@@ -161,15 +166,14 @@ async function sendOrder() {
   });
 }
 
+//-----------------------------------Vérification des champs du formulaire-------------------------------
+
 const firstname = document.getElementById("firstname");
 const lastname = document.getElementById("lastname");
 const number = document.getElementById("number");
 const voie = document.getElementById("voie");
 const city = document.getElementById("city");
 const email = document.getElementById("email");
-
-//-----------------------------------Vérification des champs du formulaire-------------------------------
-
 // Ecoute de l'input firstname----------------------------------------
 firstname.addEventListener("change", function () {
   validFirstName(this);
@@ -273,83 +277,87 @@ const validEmail = function (inputEmail) {
   }
 };
 
-
-
-
+// Ecouter le bouton d'envoi du formulaire----------------------------------------------------
 function listenButton() {
   document.querySelector("#contact-information").addEventListener(
     "submit",
     (e) => {
-      
-      if(validFirstName(firstname) && validLastName(lastname) && validCity(city) && validEmail(email)) {
-              //Récupérer la valeur des champs
-      const firstnameValue = document.getElementById("firstname").value;
-      const lastnameValue = document.getElementById("lastname").value;
-      const numberValue = document.getElementById("number").value;
-      const voieValue = document.getElementById("voie").value;
-      const cityValue = document.getElementById("city").value;
-      const emailValue = document.getElementById("email").value;
+      // Si les champs sont valides
+      if (
+        validFirstName(firstname) &&
+        validLastName(lastname) &&
+        validCity(city) &&
+        validEmail(email)
+      ) {
+        //Récupérer la valeur des champs
+        const firstnameValue = document.getElementById("firstname").value;
+        const lastnameValue = document.getElementById("lastname").value;
+        const numberValue = document.getElementById("number").value;
+        const voieValue = document.getElementById("voie").value;
+        const cityValue = document.getElementById("city").value;
+        const emailValue = document.getElementById("email").value;
 
-      const collectProductsInLocalStorage = JSON.parse(
-        localStorage.getItem("produit")
-      );
-      //Récupérer juste l'iD des produits dans le tableau
-      const prods = collectProductsInLocalStorage.map(
-        (produit) => produit.teddyId
-      );
+        const collectProductsInLocalStorage = JSON.parse(
+          localStorage.getItem("produit")
+        );
 
-      const contact = {
-        firstName: firstnameValue,
-        lastName: lastnameValue,
-        address: numberValue + " " + voieValue,
-        city: cityValue,
-        email: emailValue,
-      };
+        //Récupérer juste l'iD des produits dans le tableau
+        const prods = collectProductsInLocalStorage.map(
+          (produit) => produit.teddyId
+        );
 
-      const order = {
-        contact,
-        products: prods,
-      };
+        const contact = {
+          firstName: firstnameValue,
+          lastName: lastnameValue,
+          address: numberValue + " " + voieValue,
+          city: cityValue,
+          email: emailValue,
+        };
 
-      function sendInfo() {
-        fetch("http://localhost:3000/api/teddies/order", {
-          method: "post",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(order),
-        })
-          .then(function (response) {
-            console.log("ok");
-            return response.json();
+        const order = {
+          contact,
+          products: prods,
+        };
+
+        // Envoi des informations aux serveurs-------------------------
+        function sendInfo() {
+          fetch("http://localhost:3000/api/teddies/order", {
+            method: "post",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(order),
           })
-          .then(function (data) {
-            sessionStorage.setItem("orderId", data.orderId);
+            .then(function (response) {
+              console.log("ok");
+              return response.json();
+            })
+            .then(function (data) {
+              sessionStorage.setItem("orderId", data.orderId);
 
-            localStorage.removeItem("produit");
-            window.location = "confirmation.html";
-          })
-          .catch(function (error) {
-            console.log("error in function sendInfo !");
-          });
-      }
+              localStorage.removeItem("produit");
+              window.location = "confirmation.html";
+            })
+            .catch(function (error) {
+              console.log("error in function sendInfo !");
+            });
+        }
 
-      sendInfo();
+        sendInfo();
 
-      e.preventDefault();
-      }
-      else {
+        e.preventDefault();
+      } else {
         alert("Les champs du formulaire ne sont pas correctement complété");
-        
+
         e.preventDefault();
       }
-
     },
 
     false
   );
 }
 
+// Afficher le nombre de produits présents dans le panier-------------------
 function numberProductInLocalStorage() {
   if (
     localStorage.getItem("produit") === null ||
