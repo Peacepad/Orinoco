@@ -211,12 +211,13 @@ header {
   width: 80%; }
   #contact-information input {
     width: 200px;
-    margin-bottom: 20px; }
+    margin-bottom: 10px;
+    margin-top: 10px; }
   #contact-information fieldset {
     width: 60%;
     display: flex;
     flex-direction: row;
-    justify-content: center;
+    justify-content: space-around;
     padding: 20px;
     margin-bottom: 50px;
     border: white 1px solid; }
@@ -231,14 +232,21 @@ header {
     padding: 5px;
     font-family: 'Lobster', cursive; }
   #contact-information p {
-    font-size: 1.3em; }
+    font-size: 1.3em;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; }
+  #contact-information label {
+    text-align: center; }
+  #contact-information small {
+    text-align: center;
+    font-size: 0.8em; }
 
-#firstname, #number, #voie {
-  margin-right: 10px;
-  margin-left: 10px; }
+.valid {
+  color: chartreuse; }
 
-#lastname, #city, #email {
-  margin-left: 10px; }
+.invalid {
+  color: red; }
 
 footer {
   margin-top: 60px;

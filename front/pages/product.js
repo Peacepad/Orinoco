@@ -92,8 +92,8 @@ async function goToBasket() {
   // Comment continuer après avoir choisi un produit
 
   function howContinue() {
-    if (window.confirm(`L'ourson ${teddy.name} a été ajouté au panier avec sa couleur ${product.teddyColor}.
-    Cliquez sur Ok pour accéder au panier ou sur annuler pour continuer vos achats`)) {
+    if (window.confirm(`L'ourson ${teddy.name} a été ajouté avec sa couleur ${product.teddyColor}.
+    Souhaitez vous accéder à votre panier ?`)) {
       window.location.href = "panier.html";
     } else {
       document.location.reload();

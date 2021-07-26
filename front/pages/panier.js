@@ -84,7 +84,6 @@ function total() {
   sessionStorage.setItem("totalPrice", sum);
 }
 
-
 function clearCart() {
   let l = productInLocalStorage.length;
   console.log(l);
@@ -108,29 +107,45 @@ function displayForm() {
     
   <fieldset>
     <legend>Votre identité</legend>
-  <label for="firstname">Votre Prénom</label>
-    <input type="text" id="firstname" pattern="[a-zA-Z-]*" minlength="1"  required/>
+    <p>
+    <label for="firstname">Votre Prénom</label>
+    <input type="text" id="firstname" required/>
+    <small></small>
+    </p>
+    <p>
     <label for="lastname" >Votre nom</label>
-    <input type="text" id="lastname"  minlength="1" pattern="[a-zA-Z-]*" required/>
+    <input type="text" id="lastname" required/>
+    <small></small>
+    </p>
     </fieldset>
     <fieldset>
-        <legend>Votre adresse</legend>
+    <legend>Votre adresse</legend>
+    <p>
     <label for="number">N°</label>
-    <input type="number" min="0" id="number" onkeydown="return event.keyCode !== 69 && event.keyCode !== 109 && event.keyCode !== 107 && event.keyCode !== 190 && event.keyCode !== 110"/>
+    <input type="number" min="0"  max="10000" id="number" onkeydown="return event.keyCode !== 69 && event.keyCode !== 109 && event.keyCode !== 107 && event.keyCode !== 190 && event.keyCode !== 110"/>
+    </p>
+    <p>
     <label for="voie">Voie</label>
     <input type="voie" id="voie"  required/>
+    </p>
+    <p>
     <label for="city">Ville</label>
     <input type="city" id="city"  required/>
-  </fieldset>
+    <small></small>
+    </p>
+    </fieldset>
 
 
-  <fieldset>
+    <fieldset>
     <legend>Information supplémentaire</legend>
-  <label for="email">Votre adresse mail</label>
-  <input type="email" id="email" required/>
-</fieldset>
+    <p>
+    <label for="email">Votre adresse mail</label>
+    <input type="email" id="email" required/>
+    <small></small>
+    </p>
+    </fieldset>
   
-    <input type="submit" value="Envoyer" />
+    <input type="submit" value="Envoyer" id="cart-form-button"/>
   
 </form>`;
 }
@@ -146,19 +161,134 @@ async function sendOrder() {
   });
 }
 
+const firstname = document.getElementById("firstname");
+const lastname = document.getElementById("lastname");
+const number = document.getElementById("number");
+const voie = document.getElementById("voie");
+const city = document.getElementById("city");
+const email = document.getElementById("email");
+
+//-----------------------------------Vérification des champs du formulaire-------------------------------
+
+// Ecoute de l'input firstname----------------------------------------
+firstname.addEventListener("change", function () {
+  validFirstName(this);
+});
+
+// Fonction avece la regExp pour l'input firstname
+const validFirstName = function (inputFirstName) {
+  let firstNameRegExp = /^[a-z ,.'-]+$/i;
+  // Balise succédant firstname
+  let GoodOrNotMessage = firstname.nextElementSibling;
+
+  // S'il est vrai
+  if (firstNameRegExp.test(inputFirstName.value)) {
+    GoodOrNotMessage.innerHTML = "Prénom Valide";
+    GoodOrNotMessage.classList.remove("invalid");
+    GoodOrNotMessage.classList.add("valid");
+    return true;
+  } else {
+    GoodOrNotMessage.innerHTML = "Prénom Invalide";
+    GoodOrNotMessage.classList.remove("valid");
+    GoodOrNotMessage.classList.add("invalid");
+    return false;
+  }
+};
+
+// Ecoute de l'input laststname----------------------------------------
+lastname.addEventListener("change", function () {
+  validLastName(this);
+});
+
+// Fonction avece la regExp pour l'input lastname
+const validLastName = function (inputLastName) {
+  let lastNameRegExp = /^[a-z ,.'-]+$/i;
+  // Balise succédant lastname
+  let GoodOrNotMessage = lastname.nextElementSibling;
+
+  // S'il est vrai
+  if (lastNameRegExp.test(inputLastName.value)) {
+    GoodOrNotMessage.innerHTML = "Nom Valide";
+    GoodOrNotMessage.classList.remove("invalid");
+    GoodOrNotMessage.classList.add("valid");
+    return true;
+  } else {
+    GoodOrNotMessage.innerHTML = "Nom Invalide";
+    GoodOrNotMessage.classList.remove("valid");
+    GoodOrNotMessage.classList.add("invalid");
+    return false;
+  }
+};
+
+// Ecoute de l'input city----------------------------------------
+city.addEventListener("change", function () {
+  validCity(this);
+});
+
+// Fonction avece la regExp pour l'input city
+const validCity = function (inputCity) {
+  let cityRegExp = /^[a-zA-Z]+(?:[\s-][a-zA-Z]+)*$/;
+  // Balise succédant city
+  let GoodOrNotMessage = city.nextElementSibling;
+
+  // S'il est vrai
+  if (cityRegExp.test(inputCity.value)) {
+    GoodOrNotMessage.innerHTML = "Ville Valide";
+    GoodOrNotMessage.classList.remove("invalid");
+    GoodOrNotMessage.classList.add("valid");
+    return true;
+  } else {
+    GoodOrNotMessage.innerHTML = "Ville Invalide";
+    GoodOrNotMessage.classList.remove("valid");
+    GoodOrNotMessage.classList.add("invalid");
+    return false;
+  }
+};
+
+// Ecoute de l'input email-------------------------------------------
+email.addEventListener("change", function () {
+  validEmail(this);
+});
+
+// Fonction avece la regExp pour l'input email
+const validEmail = function (inputEmail) {
+  let emailRegExp = new RegExp(
+    "^[a-zA-Z0-9.-_]+[@]{1}[a-zA-Z0-9.-_]+[.]{1}[a-z]{2,10}$",
+    "g"
+  );
+  // Balise succédant email
+  let GoodOrNotMessage = email.nextElementSibling;
+
+  // S'il est vrai
+  if (emailRegExp.test(inputEmail.value)) {
+    GoodOrNotMessage.innerHTML = "Adresse Valide";
+    GoodOrNotMessage.classList.remove("invalid");
+    GoodOrNotMessage.classList.add("valid");
+    return true;
+  } else {
+    GoodOrNotMessage.innerHTML = "Adresse Invalide";
+    GoodOrNotMessage.classList.remove("valid");
+    GoodOrNotMessage.classList.add("invalid");
+    return false;
+  }
+};
+
+
 
 
 function listenButton() {
   document.querySelector("#contact-information").addEventListener(
     "submit",
     (e) => {
-      //Récupérer la valeur des champs
-      const firstname = document.getElementById("firstname").value;
-      const lastname = document.getElementById("lastname").value;
-      const number = document.getElementById("number").value;
-      const voie = document.getElementById("voie").value;
-      const city = document.getElementById("city").value;
-      const mail = document.getElementById("email").value;
+      
+      if(validFirstName(firstname) && validLastName(lastname) && validCity(city) && validEmail(email)) {
+              //Récupérer la valeur des champs
+      const firstnameValue = document.getElementById("firstname").value;
+      const lastnameValue = document.getElementById("lastname").value;
+      const numberValue = document.getElementById("number").value;
+      const voieValue = document.getElementById("voie").value;
+      const cityValue = document.getElementById("city").value;
+      const emailValue = document.getElementById("email").value;
 
       const collectProductsInLocalStorage = JSON.parse(
         localStorage.getItem("produit")
@@ -169,11 +299,11 @@ function listenButton() {
       );
 
       const contact = {
-        firstName: firstname,
-        lastName: lastname,
-        address: number + " " + voie,
-        city: city,
-        email: mail,
+        firstName: firstnameValue,
+        lastName: lastnameValue,
+        address: numberValue + " " + voieValue,
+        city: cityValue,
+        email: emailValue,
       };
 
       const order = {
@@ -194,9 +324,8 @@ function listenButton() {
             return response.json();
           })
           .then(function (data) {
-            
             sessionStorage.setItem("orderId", data.orderId);
-            
+
             localStorage.removeItem("produit");
             window.location = "confirmation.html";
           })
@@ -208,6 +337,13 @@ function listenButton() {
       sendInfo();
 
       e.preventDefault();
+      }
+      else {
+        alert("Les champs du formulaire ne sont pas correctement complété");
+        
+        e.preventDefault();
+      }
+
     },
 
     false
@@ -230,4 +366,3 @@ function numberProductInLocalStorage() {
 }
 
 numberProductInLocalStorage();
-
