@@ -4,10 +4,9 @@ let productInLocalStorage = JSON.parse(localStorage.getItem("produit"));
 
 console.log(justId);
 
-
 const selectForm = document.querySelector("#couleur");
 const zoneAffichage = document.getElementById("thearticle-container");
-const formProduct = document.querySelector('#form-for-product');
+const formProduct = document.querySelector("#form-for-product");
 
 // récupérer les infos en fonction de l'id
 function getTheTeddy() {
@@ -37,12 +36,10 @@ async function main() {
     addOption(color);
   }
 
-
   goToBasket();
 }
 
 function displaytheArticle(teddy) {
-  
   zoneAffichage.innerHTML = `
     <div class="thearticle__image">
       <img src="${teddy.imageUrl}" alt="Image de l'ours ${teddy.name}"/>
@@ -52,7 +49,7 @@ function displaytheArticle(teddy) {
         <h1>${teddy.name}</h1>
       </div>
       <div class="thearticle__description">"${teddy.description}"</div>
-      <div class="thearticle__price">${teddy.price/100}<sup>€</sup></div>
+      <div class="thearticle__price">${teddy.price / 100}<sup>€</sup></div>
     </div>
     `;
 }
@@ -61,26 +58,16 @@ function addOption() {
   selectForm.add(new Option(`${color}`, `${color}`));
 }
 
-
-
-
-
-
 async function goToBasket() {
   const teddy = await getTheTeddy();
 
- 
-     // Définition d'un article
-     let product = {
-      teddyName : teddy.name,
-      teddyId: teddy._id,
-      teddyColor: "",
-      teddyPrice: teddy.price,
-      };
-
-
-
-
+  // Définition d'un article
+  let product = {
+    teddyName: teddy.name,
+    teddyId: teddy._id,
+    teddyColor: "",
+    teddyPrice: teddy.price,
+  };
 
   // Ecoute de la couleur
   selectForm.addEventListener("change", (e) => {
@@ -88,30 +75,38 @@ async function goToBasket() {
     console.log(productInLocalStorage);
   });
 
-
   // Comment continuer après avoir choisi un produit
+function howContinue() {
+  const modal = document.querySelector('.window-confirmation');
+  modal.style.display= 'flex';
+  modal.removeAttribute('aria-hidden');
+  modal.setAttribute('aria-modal', 'true')
+  document.querySelector('.window-confirmation__resume').innerHTML= `L'article: <span class="classic">${teddy.name}</span> <br/>  
+  Couleur: <span class="classic">${product.teddyColor}</span><br/>
+          a été ajouté au panier.`
+};
 
-  function howContinue() {
-    if (window.confirm(`L'ourson ${teddy.name} a été ajouté avec sa couleur ${product.teddyColor}.
-    Souhaitez vous accéder à votre panier ?`)) {
+  document
+    .querySelector("#window-confirmation__btn-cart")
+    .addEventListener("click", (e) => {
       window.location.href = "panier.html";
-    } else {
+    });
+  document
+    .querySelector("#window-confirmation__btn-continue")
+    .addEventListener("click", (e) => {
       document.location.reload();
-    }
-  };
-
-
+    });
 
   let productInLocalStorage = JSON.parse(localStorage.getItem("produit"));
 
   function checkLocalStorage() {
     //s'il y a déjà quelque chose
-    if(productInLocalStorage) {
+    if (productInLocalStorage) {
       productInLocalStorage.push(product);
       localStorage.setItem("produit", JSON.stringify(productInLocalStorage));
       console.log(productInLocalStorage);
       console.log(product);
-      howContinue();
+      howContinue()
     }
     //s'il n'y a rien
     else {
@@ -123,29 +118,25 @@ async function goToBasket() {
     }
   }
 
-  formProduct.addEventListener("submit", (e) => {
-      
-      if (product.teddyColor == "" || product.teddyColor == "Selectionner une couleur") {
-          alert("N'oubliez pas de choisir une couleur pour votre ourson.");
-          e.preventDefault();
+  formProduct.addEventListener(
+    "submit",
+    (e) => {
+      if (
+        product.teddyColor == "" ||
+        product.teddyColor == "Selectionner une couleur"
+      ) {
+        alert("N'oubliez pas de choisir une couleur pour votre ourson.");
+        e.preventDefault();
+      } else {
+        e.preventDefault();
+        checkLocalStorage();
       }
-      else {
-          e.preventDefault();
-          checkLocalStorage();
-          ;}
-
-  }, false);
-
-
-  
-
-
+    },
+    false
+  );
 }
 
 main();
-
-
-
 
 function numberProductInLocalStorage() {
   if (
@@ -157,9 +148,12 @@ function numberProductInLocalStorage() {
     nb = 0;
     for (let m = 0; m < productInLocalStorage.length; m++) {
       nb++;
+    }
+    document.querySelector(".number-cart").style.right = "32px";
+    if(nb > 9) {document.querySelector(".number-cart").style.right = "29px";};
+    document.querySelector(".number-cart").innerText = `${nb}`;
   }
-  document.querySelector(".number-cart").innerText = `${nb}`
-}
 }
 
-numberProductInLocalStorage()
+numberProductInLocalStorage();
+

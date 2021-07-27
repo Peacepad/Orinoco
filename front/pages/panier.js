@@ -369,6 +369,8 @@ function numberProductInLocalStorage() {
     for (let m = 0; m < productInLocalStorage.length; m++) {
       nb++;
     }
+    document.querySelector(".number-cart").style.right = "32px";
+    if(nb > 9) {document.querySelector(".number-cart").style.right = "29px";};
     document.querySelector(".number-cart").innerText = `${nb}`;
   }
 }

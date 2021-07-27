@@ -1,0 +1,26 @@
+.window-confirmation {
+position:fixed;
+top:0;
+left:0;
+width: 100%;
+height: 100%;
+background-color: rgba(0, 0 , 0 , 0.8);
+align-items: center;
+justify-content: center;
+display: none;
+font-size: 1.5em;
+& button {
+    padding:10px;
+}
+}
+
+.window-confirmation__container {
+    background-color: $back-color;
+    padding: 20px;
+    max-width: calc(100vw -10px);
+    max-height: calc(100vh -10px);
+}
+
+.window-confirmation__resume {
+    border-bottom: solid black 1px;
+}
