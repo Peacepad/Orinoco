@@ -4,7 +4,13 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Orinoco</title>
+
+    <meta name="description" content="Orinico vous présente ses plus belles créations: les ours en peluche faits à la main. Une grande gamme d'ourson est présente sur le site, la livraison est gratuite.">
+    <meta name="keywords" content="Orinico, ours en peluche, ourson, artisanal, meilleur prix, livraison gratuite, paiement sécurisé, peluches">
+
     <link rel="stylesheet" type="text/css" href="../css/style.css" />
+
+    
     <script
       src="https://kit.fontawesome.com/8ee2930e57.js"
       crossorigin="anonymous"
@@ -16,6 +22,8 @@
       href="https://fonts.googleapis.com/css2?family=Dancing+Script&family=Lobster&family=Pacifico&family=Roboto&display=swap"
       rel="stylesheet"
     />
+
+    <link rel="icon" type="image/ico" href="../images/favicon.ico" />
   </head>
   <body>
     <header>
@@ -45,7 +53,7 @@
           </p>
 
           <p class="button-container">
-            <button id="submit" type="envoyer">
+            <button id="submit" type="submit">
               Ajouter au panier <i class="fas fa-shopping-cart"></i>
             </button>
           </p>
@@ -53,10 +61,10 @@
       </div>
     </main>
 
-    <aside class="window-confirmation" aria-hidden="true" role="dialog" aria-modal="false">
+    <div class="window-confirmation" aria-hidden="true" role="dialog" aria-modal="false">
       
       <div class="window-confirmation__container">
-        <a class="window-confirmation__close"  title="fermer la fenêtre de dialogue" aria-label="Fermer la fenêtre de dialogue" href="#"><i class="far fa-window-close"></i></a>
+        <a class="window-confirmation__close"  title="fermer la fenêtre de dialogue" aria-label="Fermer la fenêtre de dialogue" href="#"><i class="fas fa-times"></i></a>
         <p class="window-confirmation__resume"></p>
 
         <div class="window-confirmation__btn-container">
@@ -65,7 +73,7 @@
         </div>
         
       </div>
-    </aside>
+    </div>
 
 
     <footer>
@@ -80,6 +88,7 @@
         <li>© Copyright 2021</li>
       </ul>
     </footer>
+    <script src="product.js"></script>
   </body>
-  <script src="product.js"></script>
+
 </html>
