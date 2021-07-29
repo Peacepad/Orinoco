@@ -54,9 +54,15 @@
     </main>
 
     <aside class="window-confirmation" aria-hidden="true" role="dialog" aria-modal="false">
+      
       <div class="window-confirmation__container">
+        <a class="window-confirmation__close"  title="fermer la fenêtre de dialogue" aria-label="Fermer la fenêtre de dialogue" href="#"><i class="far fa-window-close"></i></a>
         <p class="window-confirmation__resume"></p>
-        <p><button id="window-confirmation__btn-continue">Continuer sur cette page</button> <button id="window-confirmation__btn-cart">Accéder au panier</button></p>
+
+        <div class="window-confirmation__btn-container">
+          <div class="window-confirmation__btn"><a href="../index.html" title="Continuer mes achats">Continuer mes achats</a></div>
+          <div class="window-confirmation__btn"><a href="panier.html" title="Accéder au panier">Accéder au panier</a></div>
+        </div>
         
       </div>
     </aside>

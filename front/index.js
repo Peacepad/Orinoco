@@ -1,6 +1,7 @@
 let productInLocalStorage = JSON.parse(localStorage.getItem("produit"));
 
-//fonction pour récupérer la liste des oursons
+// Fonction pour récupérer la liste des oursons---------------------------------------------------------------------------
+
 function getTeddies() {
   return fetch("http://localhost:3000/api/teddies")
     .then(function (response) {
@@ -15,7 +16,7 @@ function getTeddies() {
     });
 }
 
-//
+// Fonction qui execute displayTeddies autant de fois qu'il y a d'ours dans le tableau reçu-------------------------------
 
 async function main() {
   const teddies = await getTeddies();
@@ -23,6 +24,8 @@ async function main() {
     displayTeddies();
   }
 }
+
+// Fonction qui affiche les ours en fonction du tableau reçu-------------------------------------------------------------
 
 function displayTeddies() {
   document.getElementById("product-container").innerHTML += `
@@ -39,9 +42,7 @@ function displayTeddies() {
 </a>`;
 }
 
-//Appel de la fonction
-main();
-
+// Fonction pour afficher le nombre d'article présent dans le panier--------------------------------------------------------
 
 function numberProductInLocalStorage() {
   if (
@@ -60,4 +61,8 @@ function numberProductInLocalStorage() {
   }
 }
 
+
+// Appel des fonctions-----------------------------------------------------------------------------------------------------
+
+main();
 numberProductInLocalStorage()

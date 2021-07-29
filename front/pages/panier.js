@@ -2,12 +2,12 @@ let productInLocalStorage = JSON.parse(localStorage.getItem("produit"));
 
 const deleteCartButton = document.querySelector(".delete-cart");
 
-//console.log(productInLocalStorage);
 const displayArea = document.querySelector(".cart-product__container");
 
-// Afficher les produits dans le panier---------------------------------------
+// Afficher le détail des produits dans le panier-----------------------------------------------------
+
 function displayArticleInLocalStorage() {
-  displayArea.innerHTML += `
+  displayArea.innerHTML = `
     <div class="cart-product">
           <div class="cart-product__name">Nom</div>
           <div class="cart-product__couleur">Couleur</div>
@@ -33,7 +33,8 @@ function displayArticleInLocalStorage() {
   }
 }
 
-// Vérifier si le panier est vide-------------------------------------------------
+// Vérifier si le panier est vide-------------------------------------------------------------------
+
 function checkProductInLocalStorage() {
   if (
     localStorage.getItem("produit") === null ||
@@ -58,7 +59,8 @@ function checkProductInLocalStorage() {
 
 checkProductInLocalStorage();
 
-// Fonction pour supprimer du panier-----------------------------------------------
+// Fonction pour supprimer un élément du panier-----------------------------------------------
+
 function suppr() {
   for (let k = 0; k < productInLocalStorage.length; k++) {
     document.querySelector(`#delete${[k]}`).addEventListener(
@@ -74,7 +76,8 @@ function suppr() {
   }
 }
 
-// Faire le total des éléments du panier------------------------------------------
+// Faire le total des éléments du panier-------------------------------------------------------
+
 function total() {
   let sum = 0;
   for (let l = 0; l < productInLocalStorage.length; l++) {
@@ -86,7 +89,8 @@ function total() {
   sessionStorage.setItem("totalPrice", sum);
 }
 
-// Vider le panier----------------------------------------------------------------
+// Vider le panier-----------------------------------------------------------------------------
+
 function clearCart() {
   let l = productInLocalStorage.length;
   console.log(l);
@@ -102,68 +106,53 @@ function clearCart() {
   );
 }
 
-// Afficher le formulaire-----------------------------------------------------------
+// Afficher le formulaire-----------------------------------------------------------------------------
+
 function displayForm() {
-  document.querySelector(
-    "#cart-form"
-  ).innerHTML = `<form id="contact-information">
-  <p>Félicitations, votre commande est presque prête ! Il ne vous reste plus qu'à nous dire où l'envoyer.</p>
-    
-  <fieldset>
-    <legend>Votre identité</legend>
-    <p>
-    <label for="firstname">Prénom</label>
-    <input type="text" id="firstname" required/>
-    <small></small>
-    </p>
-    <p>
-    <label for="lastname">Nom</label>
-    <input type="text" id="lastname" required/>
-    <small></small>
-    </p>
-    </fieldset>
-    <fieldset>
-    <legend>Votre adresse</legend>
-    <p>
-    <label for="number">N°</label>
-    <input type="number" min="0"  max="10000" id="number" onkeydown="return event.keyCode !== 69 && event.keyCode !== 109 && event.keyCode !== 107 && event.keyCode !== 190 && event.keyCode !== 110"/>
-    </p>
-    <p>
-    <label for="voie">Voie</label>
-    <input type="voie" id="voie"  required/>
-    </p>
-    <p>
-    <label for="city">Ville</label>
-    <input type="city" id="city"  required/>
-    <small></small>
-    </p>
-    </fieldset>
-
-
-    <fieldset>
-    <legend>Information supplémentaire</legend>
-    <p>
-    <label for="email">Adresse mail</label>
-    <input type="email" id="email" required/>
-    <small></small>
-    </p>
-    </fieldset>
-  
-    <input type="submit" value="Envoyer" id="cart-form-button"/>
-  
-</form>`;
-}
-
-// Contacter le serveur------------------------------------------------------------
-async function sendOrder() {
-  fetch(": http://localhost:3000/get/", {
-    method: "POST",
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(order),
-  });
+  document.querySelector("#cart-form").innerHTML = `
+                <form id="contact-information">
+                  <p>Félicitations, votre commande est presque prête ! Il ne vous reste plus qu'à nous dire où l'envoyer.</p>
+                  <fieldset>
+                    <legend>Votre identité</legend>
+                    <p>
+                      <label for="firstname">Prénom</label>
+                      <input type="text" id="firstname" required/>
+                      <small></small>
+                    </p>
+                    <p>
+                      <label for="lastname">Nom</label>
+                      <input type="text" id="lastname" required/>
+                      <small></small>
+                    </p>
+                  </fieldset>
+                  <fieldset>
+                    <legend>Votre adresse</legend>
+                    <p>
+                      <label for="number">N°</label>
+                      <input type="number" min="0"  max="10000" id="number" onkeydown="return event.keyCode !== 69 && event.keyCode !== 109 && event.keyCode !== 107 && event.keyCode !== 190 && event.keyCode !== 110"/>
+                    </p>
+                    <p>
+                      <label for="voie">Voie</label>
+                      <input type="voie" id="voie"  required/>
+                    </p>
+                    <p>
+                      <label for="city">Ville</label>
+                      <input type="city" id="city"  required/>
+                      <small></small>
+                    </p>
+                  </fieldset>
+                  <fieldset>
+                    <legend>Information supplémentaire</legend>
+                    <p>
+                      <label for="email">Adresse mail</label>
+                      <input type="email" id="email" required/>
+                      <small></small>
+                    </p>
+                  </fieldset>
+                
+                  <input type="submit" value="Envoyer" id="cart-form-button"/>
+              
+                </form>`;
 }
 
 //-----------------------------------Vérification des champs du formulaire-------------------------------
@@ -174,18 +163,20 @@ const number = document.getElementById("number");
 const voie = document.getElementById("voie");
 const city = document.getElementById("city");
 const email = document.getElementById("email");
+
 // Ecoute de l'input firstname----------------------------------------
+
 firstname.addEventListener("change", function () {
   validFirstName(this);
 });
 
-// Fonction avece la regExp pour l'input firstname
+// Fonction avec la regExp pour l'input firstname
 const validFirstName = function (inputFirstName) {
   let firstNameRegExp = /^[a-z ,.'-]+$/i;
   // Balise succédant firstname
   let GoodOrNotMessage = firstname.nextElementSibling;
 
-  // S'il est vrai
+  // S'il est vrai (en adéquation avec la regex)
   if (firstNameRegExp.test(inputFirstName.value)) {
     GoodOrNotMessage.innerHTML = "Prénom Valide";
     GoodOrNotMessage.classList.remove("invalid");
@@ -200,6 +191,7 @@ const validFirstName = function (inputFirstName) {
 };
 
 // Ecoute de l'input laststname----------------------------------------
+
 lastname.addEventListener("change", function () {
   validLastName(this);
 });
@@ -224,7 +216,8 @@ const validLastName = function (inputLastName) {
   }
 };
 
-// Ecoute de l'input city----------------------------------------
+// Ecoute de l'input city-------------------------------------------------
+
 city.addEventListener("change", function () {
   validCity(this);
 });
@@ -282,14 +275,14 @@ function listenButton() {
   document.querySelector("#contact-information").addEventListener(
     "submit",
     (e) => {
-      // Si les champs sont valides
+      // Si les champs du formulaire sont valides--------------
       if (
         validFirstName(firstname) &&
         validLastName(lastname) &&
         validCity(city) &&
         validEmail(email)
       ) {
-        //Récupérer la valeur des champs
+        // Récupérer la valeur des champs---------------------
         const firstnameValue = document.getElementById("firstname").value;
         const lastnameValue = document.getElementById("lastname").value;
         const numberValue = document.getElementById("number").value;
@@ -301,10 +294,13 @@ function listenButton() {
           localStorage.getItem("produit")
         );
 
-        //Récupérer juste l'iD des produits dans le tableau
+        // Récupérer juste l'iD des produits dans le tableau-----
+
         const prods = collectProductsInLocalStorage.map(
           (produit) => produit.teddyId
         );
+
+        // Définition de l'objet contact---------------------
 
         const contact = {
           firstName: firstnameValue,
@@ -313,6 +309,8 @@ function listenButton() {
           city: cityValue,
           email: emailValue,
         };
+
+        // Définition de l'objet order---------------------
 
         const order = {
           contact,
@@ -339,7 +337,7 @@ function listenButton() {
               window.location = "confirmation.html";
             })
             .catch(function (error) {
-              console.log("error in function sendInfo !");
+              console.log("erreur au niveau de la requête envoi serveur");
             });
         }
 
@@ -348,7 +346,6 @@ function listenButton() {
         e.preventDefault();
       } else {
         alert("Les champs du formulaire ne sont pas correctement complété");
-
         e.preventDefault();
       }
     },
@@ -358,6 +355,7 @@ function listenButton() {
 }
 
 // Afficher le nombre de produits présents dans le panier-------------------
+
 function numberProductInLocalStorage() {
   if (
     localStorage.getItem("produit") === null ||
@@ -370,7 +368,9 @@ function numberProductInLocalStorage() {
       nb++;
     }
     document.querySelector(".number-cart").style.right = "32px";
-    if(nb > 9) {document.querySelector(".number-cart").style.right = "29px";};
+    if (nb > 9) {
+      document.querySelector(".number-cart").style.right = "29px";
+    }
     document.querySelector(".number-cart").innerText = `${nb}`;
   }
 }

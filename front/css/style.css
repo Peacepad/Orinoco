@@ -428,17 +428,44 @@ button {
   justify-content: center;
   display: none;
   font-size: 1.5em; }
-  .window-confirmation button {
-    padding: 10px; }
+  .window-confirmation a {
+    color: black;
+    text-decoration: none; }
 
 .window-confirmation__container {
   background-color: #93BEE0;
   padding: 20px;
+  width: 500px;
   max-width: calc(100vw -10px);
-  max-height: calc(100vh -10px); }
+  max-height: calc(100vh -10px);
+  position: relative; }
 
 .window-confirmation__resume {
   border-bottom: solid black 1px; }
+
+.window-confirmation__close {
+  position: absolute;
+  right: 5px;
+  top: 5px; }
+
+.window-confirmation__btn-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-between; }
+
+.window-confirmation__btn {
+  padding: 10px;
+  transition: transform 200ms cubic-bezier(0.39, -0.48, 0.41, 1.57);
+  background-color: white;
+  font-size: 0.8em;
+  width: 40%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center; }
+  .window-confirmation__btn:hover {
+    transform: scale(1.1); }
 
 body,
 html {

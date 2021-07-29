@@ -1,14 +1,14 @@
-let params = new URL(document.location).searchParams;
-let justId = params.get("id");
 let productInLocalStorage = JSON.parse(localStorage.getItem("produit"));
-
-console.log(justId);
 
 const selectForm = document.querySelector("#couleur");
 const zoneAffichage = document.getElementById("thearticle-container");
 const formProduct = document.querySelector("#form-for-product");
 
-// récupérer les infos en fonction de l'id
+// Récupérer les infos en fonction de l'id-------------------------------------------------------------------------
+
+let params = new URL(document.location).searchParams;
+let justId = params.get("id");
+
 function getTheTeddy() {
   return fetch(`http://localhost:3000/api/teddies/${justId}`)
     .then(function (res) {
@@ -20,24 +20,25 @@ function getTheTeddy() {
       return teddy;
     })
     .catch(function (error) {
-      console.log("error in function getTheArticle");
+      console.log("erreur au niveau de la requête");
     });
 }
 
+// Fonction principale qui appelle d'autres fonctions-------------------------------------------------------
+
 async function main() {
-  //fonction pour avoir tout les oursons dans le tableau donné dans getTeddies
   const teddy = await getTheTeddy();
 
   const colors = teddy.colors;
 
   displaytheArticle(teddy);
 
-  for (color of colors) {
-    addOption(color);
-  }
+  addOption(colors);
 
   goToBasket();
 }
+
+// Fonction qui affiche les informations sur l'ourson en fonction du tableau obtenu-----------------------------
 
 function displaytheArticle(teddy) {
   zoneAffichage.innerHTML = `
@@ -54,14 +55,19 @@ function displaytheArticle(teddy) {
     `;
 }
 
-function addOption() {
-  selectForm.add(new Option(`${color}`, `${color}`));
+// Fonction qui ajoute les couleurs l'ourson dans le select------------------------------------
+
+function addOption(colors) {
+  for (color of colors) {
+    selectForm.add(new Option(`${color}`, `${color}`));
+  }
 }
 
 async function goToBasket() {
   const teddy = await getTheTeddy();
 
-  // Définition d'un article
+  // Définition d'un product-------------------------------------------------------------------
+
   let product = {
     teddyName: teddy.name,
     teddyId: teddy._id,
@@ -69,35 +75,36 @@ async function goToBasket() {
     teddyPrice: teddy.price,
   };
 
-  // Ecoute de la couleur
+  // Ecoute de la couleur choisie--------------------------------------------------------------
+
   selectForm.addEventListener("change", (e) => {
     product.teddyColor = e.target.value;
-    console.log(productInLocalStorage);
   });
 
-  // Comment continuer après avoir choisi un produit
-function howContinue() {
-  const modal = document.querySelector('.window-confirmation');
-  modal.style.display= 'flex';
-  modal.removeAttribute('aria-hidden');
-  modal.setAttribute('aria-modal', 'true')
-  document.querySelector('.window-confirmation__resume').innerHTML= `L'article: <span class="classic">${teddy.name}</span> <br/>  
-  Couleur: <span class="classic">${product.teddyColor}</span><br/>
-          a été ajouté au panier.`
-};
+  // Comment continuer après avoir choisi un produit------------------------------------------
 
-  document
-    .querySelector("#window-confirmation__btn-cart")
-    .addEventListener("click", (e) => {
-      window.location.href = "panier.html";
-    });
-  document
-    .querySelector("#window-confirmation__btn-continue")
-    .addEventListener("click", (e) => {
-      document.location.reload();
-    });
+  function howContinue() {
+    const modal = document.querySelector(".window-confirmation");
+    modal.style.display = "flex";
+    modal.removeAttribute("aria-hidden");
+    modal.setAttribute("aria-modal", "true");
+    document.querySelector(
+      ".window-confirmation__resume"
+    ).innerHTML = `L'article: <span class="classic">${teddy.name}</span> <br/>  
+                  Couleur: <span class="classic">${product.teddyColor}</span><br/>
+                  a été ajouté au panier.`;
+    // Fermer la fenêtre
+    document
+      .querySelector(".window-confirmation__close")
+      .addEventListener("click", (e) => {
+        console.log("click");
+        modal.style.display = "none";
+        modal.removeAttribute("aria-modal");
+        modal.setAttribute("aria-hidden", "true");
+      });
+  }
 
-  let productInLocalStorage = JSON.parse(localStorage.getItem("produit"));
+  // Fonction qui vérifie si le panier contient déjà un ou des produits--------------------------
 
   function checkLocalStorage() {
     //s'il y a déjà quelque chose
@@ -106,7 +113,7 @@ function howContinue() {
       localStorage.setItem("produit", JSON.stringify(productInLocalStorage));
       console.log(productInLocalStorage);
       console.log(product);
-      howContinue()
+      howContinue();
     }
     //s'il n'y a rien
     else {
@@ -117,6 +124,8 @@ function howContinue() {
       howContinue();
     }
   }
+
+  // Ecoute du bouton ajouter au panier-------------------------------------
 
   formProduct.addEventListener(
     "submit",
@@ -136,7 +145,7 @@ function howContinue() {
   );
 }
 
-main();
+// Fonction pour afficher le nombre d'article présent dans le panier--------------------------------------------------------
 
 function numberProductInLocalStorage() {
   if (
@@ -150,10 +159,14 @@ function numberProductInLocalStorage() {
       nb++;
     }
     document.querySelector(".number-cart").style.right = "32px";
-    if(nb > 9) {document.querySelector(".number-cart").style.right = "29px";};
+    if (nb > 9) {
+      document.querySelector(".number-cart").style.right = "29px";
+    }
     document.querySelector(".number-cart").innerText = `${nb}`;
   }
 }
 
-numberProductInLocalStorage();
+// Appel des fonctions-----------------------------------------------------------------------------------------------------
 
+main();
+numberProductInLocalStorage();
