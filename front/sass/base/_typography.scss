@@ -13,7 +13,12 @@
     }
     & h1 {
         font-family: 'Lobster', cursive;
+        text-shadow: #c0c0c0 10px 10px 10px;
+    }
+    & .h1--transparent {
+        font-family: 'Lobster', cursive;
         padding-bottom: 20px;
+        color: rgba($color: #000000, $alpha: 0.8)
     }
 }
 

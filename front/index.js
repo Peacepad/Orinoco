@@ -33,6 +33,7 @@ function displayTeddies() {
   <div class="product">
     <div class="product__image">
       <img src="${teddy.imageUrl}" alt="Image de l'ours ${teddy.name}"/>
+      <div class="showarticle">Afficher l'article</div>
     </div>
     <div class="product__content">
       <div class="product__name"><span class="classic">${teddy.name}</span></div>

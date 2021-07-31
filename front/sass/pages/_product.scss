@@ -2,6 +2,7 @@
   width: 500px;
   height: 500px;
   object-fit: cover;
+
   @media (max-width: 992px) {
     width: 300px;
     height: 300px;
@@ -15,9 +16,10 @@
 
 .thearticle {
   background-color: $back-color;
-  width: 80%;
+  width: 90%;
   margin: auto;
   padding: 20px;
+
 }
 
 #thearticle-container {
@@ -34,10 +36,17 @@
 
 .thearticle__name {
   font-size: 1.3em;
+  transform: rotate(-10deg);
+  animation: 200ms 700ms rotation-texte forwards;
 }
+
 .thearticle__content {
   width: 30%;
+  background-color: white;
+  padding:20px;
   margin: auto;
+  transform:rotate(-10deg);
+  animation: 500ms 500ms rotation-cadre forwards;
   @media (max-width: 992px) {
     width: 100%;
   }
@@ -47,16 +56,52 @@
   text-align: justify;
   padding-top: 20px;
   padding-bottom: 20px;
+  transform: rotate(-10deg);
+  animation: 200ms 700ms rotation-texte forwards;
 }
 
 .thearticle__price {
   text-align: right;
   font-size: 1.5em;
+  transform: rotate(-10deg);
+  animation: 200ms 700ms rotation-texte forwards;
 }
+
+
+
+
+@keyframes rotation-cadre {
+  0% {
+    transform:rotate(-10deg)
+  }
+  90% {
+    transform:rotate(10deg);
+    animation-timing-function:ease-out;
+  }
+  100% {
+    transform:rotate(0deg)
+  }
+}
+
+@keyframes rotation-texte {
+  0% {
+    transform:rotate(-10deg)
+  }
+  90% {
+    transform:rotate(0deg) translateX(-1px);
+  }
+  100% {
+    transform:rotate(0deg)
+  }
+}
+
+
+
 
 .choose {
   width: 100%;
   margin-top: 10px;
+  
 }
 
 .choose form {
@@ -83,7 +128,7 @@
 select,
 select:focus,
 button {
-  border-radius: 0px;
+
   border: none;
   cursor: pointer;
 }
@@ -136,3 +181,4 @@ button {
     width: 100%;
   }
 }
+

@@ -8,7 +8,7 @@ const displayArea = document.querySelector(".cart-product__container");
 
 function displayArticleInLocalStorage() {
   displayArea.innerHTML = `
-    <div class="cart-product">
+    <div class="cart-product cart-product--head">
           <div class="cart-product__name">Nom</div>
           <div class="cart-product__couleur">Couleur</div>
           <div class="cart-product__prix">Prix</div>
@@ -42,13 +42,13 @@ function checkProductInLocalStorage() {
   ) {
     console.log("le panier est vide");
     displayArea.innerHTML = `<p class="empty-cart">Votre panier est vide.</br>
-    N'hésitez pas à le remplir d'oursons en peluches. Continuez à tout moment vos achats sur Orinoco.</br>
+    N'hésitez pas à le remplir d'oursons en peluches.<br>Continuez à tout moment vos achats sur Orinoco.</br>
         <a href="../index.html" title="Revenir à l'accueil"><button>Revenir à l'accueil</button></a></p>`;
   } else {
     console.log("le panier est rempli");
     displayArticleInLocalStorage();
     document.querySelector(".delete-cart").innerHTML =
-      '<button class="delete-all__btn">Vider le panier</button>';
+      '<button class="delete-all__btn">Vider le panier<span><i class="fas fa-trash-alt"></i></span></button>';
     displayForm();
     suppr();
     total();
@@ -116,12 +116,12 @@ function displayForm() {
                     <legend>Votre identité</legend>
                     <p>
                       <label for="firstname">Prénom</label>
-                      <input type="text" id="firstname" required/>
+                      <input type="text" name="firstname" id="firstname" required/>
                       <small></small>
                     </p>
                     <p>
                       <label for="lastname">Nom</label>
-                      <input type="text" id="lastname" required/>
+                      <input type="text" name="lastname" id="lastname" required/>
                       <small></small>
                     </p>
                   </fieldset>
@@ -137,7 +137,7 @@ function displayForm() {
                     </p>
                     <p>
                       <label for="city">Ville</label>
-                      <input type="city" id="city"  required/>
+                      <input type="city" name="city" id="city"  required/>
                       <small></small>
                     </p>
                   </fieldset>
@@ -145,7 +145,7 @@ function displayForm() {
                     <legend>Information supplémentaire</legend>
                     <p>
                       <label for="email">Adresse mail</label>
-                      <input type="email" id="email" required/>
+                      <input type="email" name="email" id="email" required/>
                       <small></small>
                     </p>
                   </fieldset>
@@ -332,7 +332,6 @@ function listenButton() {
             })
             .then(function (data) {
               sessionStorage.setItem("orderId", data.orderId);
-
               localStorage.removeItem("produit");
               window.location = "confirmation.html";
             })

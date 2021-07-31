@@ -3,6 +3,7 @@ header {
   flex-direction: row;
   justify-content: space-between;
   width: 100%;
+  margin:auto;
   padding-left: 20px;
   padding-right: 20px;
   align-items: center;
@@ -12,6 +13,9 @@ header {
   position: relative;
   box-sizing: border-box;
 
+  @media (max-width: 576px) {
+    width:100%;
+  }
   & #Orinoco-logo {
     height: 70px;
   }

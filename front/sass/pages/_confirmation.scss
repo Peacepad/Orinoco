@@ -5,6 +5,9 @@
     background-color: $back-color;
     padding: 20px;
     font-size: 1.2em;
+    & img {
+        width:90%
+    }
 }
 
 .order-id {
@@ -12,4 +15,9 @@
     background-color: white;
     width: 30%;
     margin: auto;
+
+    @media (max-width: 992px) {
+        width: 90%;
+      }
 }
+
