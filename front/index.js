@@ -52,13 +52,11 @@ function numberProductInLocalStorage() {
   ) {
     console.log("0");
   } else {
-    nb = 0;
-    for (let m = 0; m < productInLocalStorage.length; m++) {
-      nb++;
+        document.querySelector(".number-cart").style.right = "32px";
+    if (productInLocalStorage.length > 9) {
+      document.querySelector(".number-cart").style.right = "29px";
     }
-    document.querySelector(".number-cart").style.right = "32px";
-    if(nb > 9) {document.querySelector(".number-cart").style.right = "29px";};
-    document.querySelector(".number-cart").innerText = `${nb}`;
+    document.querySelector(".number-cart").innerText = `${productInLocalStorage.length}`;
   }
 }
 

@@ -109,9 +109,10 @@ async function goToBasket() {
   function checkLocalStorage() {
     //s'il y a déjà quelque chose
     if (productInLocalStorage) {
+      let nb = productInLocalStorage.length + 1;
       productInLocalStorage.push(product);
       localStorage.setItem("produit", JSON.stringify(productInLocalStorage));
-      console.log(productInLocalStorage);
+      document.querySelector(".number-cart").innerText = `${nb}`;
       console.log(product);
       howContinue();
     }
@@ -147,24 +148,22 @@ async function goToBasket() {
 
 // Fonction pour afficher le nombre d'article présent dans le panier--------------------------------------------------------
 
-function numberProductInLocalStorage() {
-  if (
-    localStorage.getItem("produit") === null ||
-    productInLocalStorage.length == 0
-  ) {
-    console.log("0");
-  } else {
-    nb = 0;
-    for (let m = 0; m < productInLocalStorage.length; m++) {
-      nb++;
+
+  function numberProductInLocalStorage() {
+    if (
+      localStorage.getItem("produit") === null ||
+      productInLocalStorage.length == 0
+    ) {
+      console.log("0");
+    } else {
+          document.querySelector(".number-cart").style.right = "32px";
+      if (productInLocalStorage.length > 9) {
+        document.querySelector(".number-cart").style.right = "29px";
+      }
+      document.querySelector(".number-cart").innerText = `${productInLocalStorage.length}`;
     }
-    document.querySelector(".number-cart").style.right = "32px";
-    if (nb > 9) {
-      document.querySelector(".number-cart").style.right = "29px";
-    }
-    document.querySelector(".number-cart").innerText = `${nb}`;
   }
-}
+
 
 // Appel des fonctions-----------------------------------------------------------------------------------------------------
 
