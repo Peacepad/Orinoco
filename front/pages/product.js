@@ -1,6 +1,6 @@
 let productInLocalStorage = JSON.parse(localStorage.getItem("produit"));
 
-const selectForm = document.querySelector("#couleur");
+const selectColor = document.querySelector("#couleur");
 const zoneAffichage = document.getElementById("thearticle-container");
 const formProduct = document.querySelector("#form-for-product");
 
@@ -55,31 +55,50 @@ function displaytheArticle(teddy) {
     `;
 }
 
+// Ajout des options de quantités--------------------------------
+selectQuantity = document.querySelector("#quantite");
+
+for (let i = 1; i <= 9; i++) {
+  let opt = document.createElement("option");
+  opt.value = i;
+  opt.innerHTML = i;
+  selectQuantity.appendChild(opt);
+}
+
+//Ecoute de la quantité choisie------------------------------------------------------------
+
 // Fonction qui ajoute les couleurs l'ourson dans le select------------------------------------
 
 function addOption(colors) {
   for (color of colors) {
-    selectForm.add(new Option(`${color}`, `${color}`));
+    selectColor.add(new Option(`${color}`, `${color}`));
   }
 }
 
 async function goToBasket() {
   const teddy = await getTheTeddy();
 
+  // Ecoute de la couleur choisie--------------------------------------------------------------
+
+  selectColor.addEventListener("change", (e) => {
+    product.teddyColor = e.target.value;
+  });
+
+  selectQuantity.addEventListener("change", (e) => {
+    product.quantity = e.target.value;
+    product.teddyPrice = (e.target.value * teddy.price)/100;
+  });
+
   // Définition d'un product-------------------------------------------------------------------
+
 
   let product = {
     teddyName: teddy.name,
     teddyId: teddy._id,
     teddyColor: "",
-    teddyPrice: teddy.price,
+    quantity: "",
+    teddyPrice: "",
   };
-
-  // Ecoute de la couleur choisie--------------------------------------------------------------
-
-  selectForm.addEventListener("change", (e) => {
-    product.teddyColor = e.target.value;
-  });
 
   // Comment continuer après avoir choisi un produit------------------------------------------
 
@@ -109,19 +128,42 @@ async function goToBasket() {
   function checkLocalStorage() {
     //s'il y a déjà quelque chose
     if (productInLocalStorage) {
-      let nb = productInLocalStorage.length + 1;
-      productInLocalStorage.push(product);
+      // Est-ce que l'article en question existe déjà
+      console.log("coucou");
+      for (article of productInLocalStorage) {
+        if (article.teddyId === product.teddyId && article.teddyColor === product.teddyColor) {
+          article.quantity =
+            parseInt(article.quantity, 10) + parseInt(product.quantity, 10);
+            article.teddyPrice =
+            parseInt(article.teddyPrice, 10) + parseInt(product.teddyPrice, 10);
+        }
+      }
+      // Il faut vérifier que pour chaque ours déjà dans le panier son id n'est pas déjà présent
+
+      
+        const idLocalStorage = productInLocalStorage.map(el => el.teddyId)
+        const colorLocalStorage = productInLocalStorage.map(el => el.teddyColor)
+        if (idLocalStorage.includes(product.teddyId) == false || colorLocalStorage.includes(product.teddyColor) == false)  
+        {productInLocalStorage.push(product);}
+     
+        
+         
+          
+      
+     
       localStorage.setItem("produit", JSON.stringify(productInLocalStorage));
-      document.querySelector(".number-cart").innerText = `${nb}`;
+      numberProductInLocalStorage();
       console.log(product);
       howContinue();
     }
+
     //s'il n'y a rien
     else {
       productInLocalStorage = [];
       productInLocalStorage.push(product);
       console.log(productInLocalStorage);
       localStorage.setItem("produit", JSON.stringify(productInLocalStorage));
+      numberProductInLocalStorage();
       howContinue();
     }
   }
@@ -135,7 +177,11 @@ async function goToBasket() {
         product.teddyColor == "" ||
         product.teddyColor == "Selectionner une couleur"
       ) {
-        alert("N'oubliez pas de choisir une couleur pour votre ourson.");
+        alert("Selectionnez une couleur pour votre ourson.");
+
+        e.preventDefault();
+      } else if (product.quantity == "" || product.quantity == "Quantité") {
+        alert("Selectionnez une quantité.");
         e.preventDefault();
       } else {
         e.preventDefault();
@@ -148,24 +194,26 @@ async function goToBasket() {
 
 // Fonction pour afficher le nombre d'article présent dans le panier--------------------------------------------------------
 
-
-  function numberProductInLocalStorage() {
-    if (
-      localStorage.getItem("produit") === null ||
-      productInLocalStorage.length == 0
-    ) {
-      console.log("0");
-    } else {
-          document.querySelector(".number-cart").style.right = "32px";
-      if (productInLocalStorage.length > 9) {
-        document.querySelector(".number-cart").style.right = "29px";
-      }
-      document.querySelector(".number-cart").innerText = `${productInLocalStorage.length}`;
+function numberProductInLocalStorage() {
+  if (
+    localStorage.getItem("produit") === null ||
+    productInLocalStorage.length == 0
+  ) {
+    console.log("0");
+  } else {
+    document.querySelector(".number-cart").style.right = "32px";
+    if (productInLocalStorage.length > 9) {
+      document.querySelector(".number-cart").style.right = "29px";
     }
+    document.querySelector(
+      ".number-cart"
+    ).innerText = `${productInLocalStorage.length}`;
   }
-
+}
 
 // Appel des fonctions-----------------------------------------------------------------------------------------------------
 
 main();
 numberProductInLocalStorage();
+
+function quantityManager() {}

@@ -11,6 +11,7 @@ function displayArticleInLocalStorage() {
     <div class="cart-product cart-product--head">
           <div class="cart-product__name">Nom</div>
           <div class="cart-product__couleur">Couleur</div>
+          <div class="cart-product__quantite">Quantité</div>
           <div class="cart-product__prix">Prix</div>
           <div class="cart-product__delete">Supprimer</div>
         </div>`;
@@ -23,9 +24,13 @@ function displayArticleInLocalStorage() {
           <div class="cart-product__couleur">${
             productInLocalStorage[i].teddyColor
           }</div>
-          <div class="cart-product__prix">${
-            productInLocalStorage[i].teddyPrice / 100
-          }€</div>
+          <div class="cart-product__quantite">
+            <button id="less${i}">-</button><span id="quantity${i}">${
+      productInLocalStorage[i].quantity
+    }</span><button id="more${i}">+</button></div>
+          <div class="cart-product__prix"><span id="price${i}">${
+      productInLocalStorage[i].teddyPrice
+    }</span>€</div>
           <div class="cart-product__delete"><button class="delete" id="delete${[
             i,
           ]}"><i class="fas fa-trash-alt"></i></button></div>
@@ -76,15 +81,70 @@ function suppr() {
   }
 }
 
+// Gérer la quantité
+
+function quantityManager() {
+  for (let k = 0; k < productInLocalStorage.length; k++) {
+    const realPrice = parseInt(productInLocalStorage[k].teddyPrice, 10);
+    const priceForOne =
+      parseInt(realPrice, 10) / parseInt(productInLocalStorage[k].quantity);
+
+    document.querySelector(`#less${[k]}`).addEventListener(
+      "click",
+      (ev) => {
+        productInLocalStorage[k].quantity -= 1;
+        productInLocalStorage[k].teddyPrice -= priceForOne;
+
+        localStorage.setItem("produit", JSON.stringify(productInLocalStorage));
+        document.querySelector(
+          `#quantity${[k]}`
+        ).innerText = `${productInLocalStorage[k].quantity}`;
+        document.querySelector(
+          `#price${[k]}`
+        ).innerText = `${productInLocalStorage[k].teddyPrice}`;
+        if(productInLocalStorage[k].quantity == 0) {
+          productInLocalStorage.splice([k], 1);
+          localStorage.setItem("produit", JSON.stringify(productInLocalStorage));
+          document.location.reload();
+        }
+        total();
+      },
+      false
+    );
+
+    document.querySelector(`#more${[k]}`).addEventListener(
+      "click",
+      (ev) => {
+        productInLocalStorage[k].quantity += 1;
+        productInLocalStorage[k].teddyPrice += priceForOne;
+
+        localStorage.setItem("produit", JSON.stringify(productInLocalStorage));
+        document.querySelector(
+          `#quantity${[k]}`
+        ).innerText = `${productInLocalStorage[k].quantity}`;
+        document.querySelector(
+          `#price${[k]}`
+        ).innerText = `${productInLocalStorage[k].teddyPrice}`;
+        total();
+      },
+      false
+    );
+  }
+}
+
+quantityManager();
+
+
+
 // Faire le total des éléments du panier-------------------------------------------------------
 
 function total() {
   let sum = 0;
   for (let l = 0; l < productInLocalStorage.length; l++) {
     sum = sum + productInLocalStorage[l].teddyPrice;
-    document.querySelector(".total").innerHTML = `<p>Total de votre commande: ${
-      sum / 100
-    }€</p>`;
+    document.querySelector(
+      ".total"
+    ).innerHTML = `<p>Total de votre commande: ${sum}€</p>`;
   }
   sessionStorage.setItem("totalPrice", sum);
 }
@@ -117,12 +177,12 @@ function displayForm() {
                     <p>
                       <label for="firstname">Prénom</label>
                       <input type="text" name="firstname" id="firstname" required/>
-                      <small></small>
+                   
                     </p>
                     <p>
                       <label for="lastname">Nom</label>
                       <input type="text" name="lastname" id="lastname" required/>
-                      <small></small>
+                     
                     </p>
                   </fieldset>
                   <fieldset>
@@ -138,7 +198,7 @@ function displayForm() {
                     <p>
                       <label for="city">Ville</label>
                       <input type="city" name="city" id="city"  required/>
-                      <small></small>
+                      
                     </p>
                   </fieldset>
                   <fieldset>
@@ -146,7 +206,7 @@ function displayForm() {
                     <p>
                       <label for="email">Adresse mail</label>
                       <input type="email" name="email" id="email" required/>
-                      <small></small>
+                      
                     </p>
                   </fieldset>
                 
@@ -178,14 +238,12 @@ const validFirstName = function (inputFirstName) {
 
   // S'il est vrai (en adéquation avec la regex)
   if (firstNameRegExp.test(inputFirstName.value)) {
-    GoodOrNotMessage.innerHTML = "Prénom Valide";
-    GoodOrNotMessage.classList.remove("invalid");
-    GoodOrNotMessage.classList.add("valid");
+    firstname.classList.remove("invalid");
+    firstname.classList.add("valid");
     return true;
   } else {
-    GoodOrNotMessage.innerHTML = "Prénom Invalide";
-    GoodOrNotMessage.classList.remove("valid");
-    GoodOrNotMessage.classList.add("invalid");
+    firstname.classList.remove("valid");
+    firstname.classList.add("invalid");
     return false;
   }
 };
@@ -204,14 +262,12 @@ const validLastName = function (inputLastName) {
 
   // S'il est vrai
   if (lastNameRegExp.test(inputLastName.value)) {
-    GoodOrNotMessage.innerHTML = "Nom Valide";
-    GoodOrNotMessage.classList.remove("invalid");
-    GoodOrNotMessage.classList.add("valid");
+    lastname.classList.remove("invalid");
+    lastname.classList.add("valid");
     return true;
   } else {
-    GoodOrNotMessage.innerHTML = "Nom Invalide";
-    GoodOrNotMessage.classList.remove("valid");
-    GoodOrNotMessage.classList.add("invalid");
+    lastname.classList.remove("valid");
+    lastname.classList.add("invalid");
     return false;
   }
 };
@@ -230,14 +286,12 @@ const validCity = function (inputCity) {
 
   // S'il est vrai
   if (cityRegExp.test(inputCity.value)) {
-    GoodOrNotMessage.innerHTML = "Ville Valide";
-    GoodOrNotMessage.classList.remove("invalid");
-    GoodOrNotMessage.classList.add("valid");
+    city.classList.remove("invalid");
+    city.classList.add("valid");
     return true;
   } else {
-    GoodOrNotMessage.innerHTML = "Ville Invalide";
-    GoodOrNotMessage.classList.remove("valid");
-    GoodOrNotMessage.classList.add("invalid");
+    city.classList.remove("valid");
+    city.classList.add("invalid");
     return false;
   }
 };
@@ -258,14 +312,12 @@ const validEmail = function (inputEmail) {
 
   // S'il est vrai
   if (emailRegExp.test(inputEmail.value)) {
-    GoodOrNotMessage.innerHTML = "Adresse Valide";
-    GoodOrNotMessage.classList.remove("invalid");
-    GoodOrNotMessage.classList.add("valid");
+    email.classList.remove("invalid");
+    email.classList.add("valid");
     return true;
   } else {
-    GoodOrNotMessage.innerHTML = "Adresse Invalide";
-    GoodOrNotMessage.classList.remove("valid");
-    GoodOrNotMessage.classList.add("invalid");
+    email.classList.remove("valid");
+    email.classList.add("invalid");
     return false;
   }
 };
@@ -341,7 +393,6 @@ function listenButton() {
         }
 
         sendInfo();
-
         e.preventDefault();
       } else {
         alert("Les champs du formulaire ne sont pas correctement complété");
@@ -362,13 +413,14 @@ function numberProductInLocalStorage() {
   ) {
     console.log("0");
   } else {
-        document.querySelector(".number-cart").style.right = "32px";
+    document.querySelector(".number-cart").style.right = "32px";
     if (productInLocalStorage.length > 9) {
       document.querySelector(".number-cart").style.right = "29px";
     }
-    document.querySelector(".number-cart").innerText = `${productInLocalStorage.length}`;
+    document.querySelector(
+      ".number-cart"
+    ).innerText = `${productInLocalStorage.length}`;
   }
 }
 
 numberProductInLocalStorage();
-
