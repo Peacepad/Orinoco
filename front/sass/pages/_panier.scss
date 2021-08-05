@@ -30,6 +30,9 @@
   &__delete {
     width: 25%;
   }
+  &__quantite {
+    width: 25%;
+  }
   &:nth-child(1) {
     background-color: #cef3d0;
   }
@@ -119,11 +122,11 @@
 }
 
 .valid {
-  color: chartreuse;
+  border: chartreuse solid 2px;
 }
 
 .invalid {
-  color: red;
+  border: solid 2px red;
 }
 
 .delete-all__btn {
@@ -139,4 +142,9 @@
 
     transform: scale(1.1);
   }
+}
+
+button {
+  border: solid 1px black;
+  font-size: 1em;
 }

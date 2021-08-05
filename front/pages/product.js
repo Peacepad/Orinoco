@@ -1,9 +1,9 @@
 let productInLocalStorage = JSON.parse(localStorage.getItem("produit"));
 
-const selectForm = document.querySelector("#couleur");
-const zoneAffichage = document.getElementById("thearticle-container");
-const formProduct = document.querySelector("#form-for-product");
-
+const domSelectColor = document.querySelector("#couleur");
+const domTheArticle = document.getElementById("thearticle-container");
+const domProductForm = document.querySelector("#form-for-product");
+const domSelectTheQuantity = document.querySelector("#quantite");
 // Récupérer les infos en fonction de l'id-------------------------------------------------------------------------
 
 let params = new URL(document.location).searchParams;
@@ -41,7 +41,7 @@ async function main() {
 // Fonction qui affiche les informations sur l'ourson en fonction du tableau obtenu-----------------------------
 
 function displaytheArticle(teddy) {
-  zoneAffichage.innerHTML = `
+  domTheArticle.innerHTML = `
     <div class="thearticle__image">
       <img src="${teddy.imageUrl}" alt="Image de l'ours ${teddy.name}"/>
     </div>
@@ -55,16 +55,39 @@ function displaytheArticle(teddy) {
     `;
 }
 
+// Ajout des options de quantités--------------------------------
+
+
+for (let i = 1; i <= 9; i++) {
+  let opt = document.createElement("option");
+  opt.value = i;
+  opt.innerHTML = i;
+  domSelectTheQuantity.appendChild(opt);
+}
+
+//Ecoute de la quantité choisie------------------------------------------------------------
+
 // Fonction qui ajoute les couleurs l'ourson dans le select------------------------------------
 
 function addOption(colors) {
   for (color of colors) {
-    selectForm.add(new Option(`${color}`, `${color}`));
+    domSelectColor.add(new Option(`${color}`, `${color}`));
   }
 }
 
 async function goToBasket() {
   const teddy = await getTheTeddy();
+
+  // Ecoute de la couleur choisie--------------------------------------------------------------
+
+  domSelectColor.addEventListener("change", (e) => {
+    product.teddyColor = e.target.value;
+  });
+
+  domSelectTheQuantity.addEventListener("change", (e) => {
+    product.quantity = e.target.value;
+    product.teddyPrice = (e.target.value * teddy.price) / 100;
+  });
 
   // Définition d'un product-------------------------------------------------------------------
 
@@ -72,14 +95,9 @@ async function goToBasket() {
     teddyName: teddy.name,
     teddyId: teddy._id,
     teddyColor: "",
-    teddyPrice: teddy.price,
+    quantity: "",
+    teddyPrice: "",
   };
-
-  // Ecoute de la couleur choisie--------------------------------------------------------------
-
-  selectForm.addEventListener("change", (e) => {
-    product.teddyColor = e.target.value;
-  });
 
   // Comment continuer après avoir choisi un produit------------------------------------------
 
@@ -97,10 +115,7 @@ async function goToBasket() {
     document
       .querySelector(".window-confirmation__close")
       .addEventListener("click", (e) => {
-        console.log("click");
-        modal.style.display = "none";
-        modal.removeAttribute("aria-modal");
-        modal.setAttribute("aria-hidden", "true");
+        document.location.reload();
       });
   }
 
@@ -109,33 +124,64 @@ async function goToBasket() {
   function checkLocalStorage() {
     //s'il y a déjà quelque chose
     if (productInLocalStorage) {
-      let nb = productInLocalStorage.length + 1;
-      productInLocalStorage.push(product);
+      
+      // Est-ce que l'article en question existe déjà avec la même couleur et le même id
+
+      for (article of productInLocalStorage) {
+        if (
+          article.teddyId === product.teddyId &&
+          article.teddyColor === product.teddyColor
+        ) { // On ajoute la quantité et le prix
+          article.quantity =
+            parseInt(article.quantity, 10) + parseInt(product.quantity, 10);
+          article.teddyPrice =
+            parseInt(article.teddyPrice, 10) + parseInt(product.teddyPrice, 10);
+        }
+      }
+      
+      const idLocalStorage = productInLocalStorage.map((el) => el.teddyId);
+      const colorLocalStorage = productInLocalStorage.map(
+        (el) => el.teddyColor
+      );
+
+      // Si on a pas déjà un ourson avec le même id ou la couleur on peut l'ajouter comme nouvel objet
+      if ( 
+        idLocalStorage.includes(product.teddyId) == false ||
+        colorLocalStorage.includes(product.teddyColor) == false
+      ) {
+        productInLocalStorage.push(product);
+      }
       localStorage.setItem("produit", JSON.stringify(productInLocalStorage));
-      document.querySelector(".number-cart").innerText = `${nb}`;
+      showHowMuchProductInLocalStorage();
       console.log(product);
       howContinue();
     }
-    //s'il n'y a rien
+
+    // S'il n'y a rien
     else {
       productInLocalStorage = [];
       productInLocalStorage.push(product);
       console.log(productInLocalStorage);
       localStorage.setItem("produit", JSON.stringify(productInLocalStorage));
+      showHowMuchProductInLocalStorage();
       howContinue();
     }
   }
 
   // Ecoute du bouton ajouter au panier-------------------------------------
 
-  formProduct.addEventListener(
+  domProductForm.addEventListener(
     "submit",
     (e) => {
       if (
         product.teddyColor == "" ||
         product.teddyColor == "Selectionner une couleur"
       ) {
-        alert("N'oubliez pas de choisir une couleur pour votre ourson.");
+        alert("Selectionnez une couleur pour votre ourson.");
+
+        e.preventDefault();
+      } else if (product.quantity == "" || product.quantity == "Quantité") {
+        alert("Selectionnez une quantité.");
         e.preventDefault();
       } else {
         e.preventDefault();
@@ -148,24 +194,26 @@ async function goToBasket() {
 
 // Fonction pour afficher le nombre d'article présent dans le panier--------------------------------------------------------
 
-
-  function numberProductInLocalStorage() {
-    if (
-      localStorage.getItem("produit") === null ||
-      productInLocalStorage.length == 0
-    ) {
-      console.log("0");
-    } else {
-          document.querySelector(".number-cart").style.right = "32px";
-      if (productInLocalStorage.length > 9) {
-        document.querySelector(".number-cart").style.right = "29px";
-      }
-      document.querySelector(".number-cart").innerText = `${productInLocalStorage.length}`;
+function showHowMuchProductInLocalStorage() {
+  if (
+    localStorage.getItem("produit") === null ||
+    productInLocalStorage.length == 0
+  ) {
+    console.log("0");
+  } else {
+    document.querySelector(".number-cart").style.right = "32px";
+    if (productInLocalStorage.length > 9) {
+      document.querySelector(".number-cart").style.right = "29px";
     }
+    document.querySelector(
+      ".number-cart"
+    ).innerText = `${productInLocalStorage.length}`;
   }
-
+}
 
 // Appel des fonctions-----------------------------------------------------------------------------------------------------
 
 main();
-numberProductInLocalStorage();
+showHowMuchProductInLocalStorage();
+
+function quantityManager() {}

@@ -5,7 +5,7 @@
 
     let totalPrice = sessionStorage.getItem("totalPrice");
     console.log(totalPrice);
-    document.querySelector('.confirmation-price').innerText = `${totalPrice/100}`;
+    document.querySelector('.confirmation-price').innerText = `${totalPrice}`;
 
 
     localStorage.clear();

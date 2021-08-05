@@ -18,7 +18,7 @@ function getTeddies() {
 
 // Fonction qui execute displayTeddies autant de fois qu'il y a d'ours dans le tableau reçu-------------------------------
 
-async function main() {
+async function makeALoop() {
   const teddies = await getTeddies();
   for (teddy of teddies) {
     displayTeddies();
@@ -45,7 +45,7 @@ function displayTeddies() {
 
 // Fonction pour afficher le nombre d'article présent dans le panier--------------------------------------------------------
 
-function numberProductInLocalStorage() {
+function showHowMuchProductInLocalStorage() {
   if (
     localStorage.getItem("produit") === null ||
     productInLocalStorage.length == 0
@@ -63,5 +63,5 @@ function numberProductInLocalStorage() {
 
 // Appel des fonctions-----------------------------------------------------------------------------------------------------
 
-main();
-numberProductInLocalStorage()
+makeALoop();
+showHowMuchProductInLocalStorage()
