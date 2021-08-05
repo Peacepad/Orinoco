@@ -297,6 +297,10 @@ header {
   .delete-all__btn:hover {
     transform: scale(1.1); }
 
+button {
+  border: solid 1px black;
+  font-size: 1em; }
+
 footer {
   margin-top: 60px;
   font-size: 1em;
@@ -480,8 +484,6 @@ button {
   background-color: #93BEE0;
   padding: 20px;
   font-size: 1.2em; }
-  .confirmation-container img {
-    width: 90%; }
 
 .order-id {
   text-transform: uppercase;
