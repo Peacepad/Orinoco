@@ -55,7 +55,7 @@ function checkProductInLocalStorage() {
     document.querySelector(".delete-cart").innerHTML =
       '<button class="delete-all__btn">Vider le panier<span><i class="fas fa-trash-alt"></i></span></button>';
     displayForm();
-    makeALoopOnProductInLocalStorage()
+    makeALoopOnProductInLocalStorage();
     calculateTotal();
     clearCart();
     listenSubmitButton();
@@ -64,7 +64,6 @@ function checkProductInLocalStorage() {
 
 checkProductInLocalStorage();
 
-
 function makeALoopOnProductInLocalStorage() {
   for (let k = 0; k < productInLocalStorage.length; k++) {
     deleteProduct(k);
@@ -72,21 +71,19 @@ function makeALoopOnProductInLocalStorage() {
   }
 }
 
-
 // Fonction pour supprimer un élément du panier-----------------------------------------------
 
 function deleteProduct(k) {
-    document.querySelector(`#delete${[k]}`).addEventListener(
-      "click",
-      (ev) => {
-        productInLocalStorage.splice([k], 1);
-        console.log(productInLocalStorage);
-        localStorage.setItem("produit", JSON.stringify(productInLocalStorage));
-        document.location.reload();
-      },
-      false
-    );
-  
+  document.querySelector(`#delete${[k]}`).addEventListener(
+    "click",
+    (ev) => {
+      productInLocalStorage.splice([k], 1);
+      console.log(productInLocalStorage);
+      localStorage.setItem("produit", JSON.stringify(productInLocalStorage));
+      document.location.reload();
+    },
+    false
+  );
 }
 
 // Gérer la quantité
@@ -255,16 +252,15 @@ const regex = [
 ];
 
 for (let i = 0; i <= domNeedVerification.length; i++) {
-domNeedVerification[i].addEventListener("change", (e) => {
-  if (regex[i].test(domNeedVerification[i].value)) {
-    domNeedVerification[i].classList.remove("invalid");
-    domNeedVerification[i].classList.add("valid");
-
-  } else {
-    domNeedVerification[i].classList.remove("valid");
-    domNeedVerification[i].classList.add("invalid");
-  }
-})
+  domNeedVerification[i].addEventListener("change", (e) => {
+    if (regex[i].test(domNeedVerification[i].value)) {
+      domNeedVerification[i].classList.remove("invalid");
+      domNeedVerification[i].classList.add("valid");
+    } else {
+      domNeedVerification[i].classList.remove("valid");
+      domNeedVerification[i].classList.add("invalid");
+    }
+  });
 }
 
 // Ecouter le bouton d'envoi du formulaire----------------------------------------------------
@@ -272,20 +268,24 @@ function listenSubmitButton() {
   document.querySelector("#contact-information").addEventListener(
     "submit",
     (e) => {
-      console.log('envoyé )')
+      console.log("envoyé )");
       const firstnameValue = domFirstname.value;
-        const lastnameValue = domLastname.value;
-        const numberValue = domNumber.value;
-        const voieValue = domVoie.value;
-        const cityValue = domCity.value;
-        const emailValue = domEmail.value;
+      const lastnameValue = domLastname.value;
+      const numberValue = domNumber.value;
+      const voieValue = domVoie.value;
+      const cityValue = domCity.value;
+      const emailValue = domEmail.value;
 
       // Si les champs du formulaire sont valides--------------
-      if (firstnameRegExp.test(firstnameValue) &&
-      lastnameRegExp.test(lastnameValue) && numberRegExp.test(numberValue) && voieRegExp.test(voieValue) && cityRegExp.test(cityValue) && emailRegExp.test(emailValue)
+      if (
+        firstnameRegExp.test(firstnameValue) &&
+        lastnameRegExp.test(lastnameValue) &&
+        numberRegExp.test(numberValue) &&
+        voieRegExp.test(voieValue) &&
+        cityRegExp.test(cityValue) &&
+        emailRegExp.test(emailValue)
       ) {
         // Récupérer la valeur des champs---------------------
-        
 
         const collectProductsInLocalStorage = JSON.parse(
           localStorage.getItem("produit")
@@ -369,13 +369,3 @@ function showHowMuchProductInLocalStorage() {
 }
 
 showHowMuchProductInLocalStorage();
-
-
-
-
-
-
-
-
-
-

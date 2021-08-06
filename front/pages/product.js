@@ -132,15 +132,15 @@ async function goToBasket() {
       // Est-ce que l'article en question existe déjà avec la même couleur et le même id
 
       for (article of productInLocalStorage) {
-        if (
-          article.teddyId === product.teddyId &&
-          article.teddyColor === product.teddyColor
-        ) {
-          // On ajoute la quantité et le prix
-          article.quantity =
-            parseInt(article.quantity, 10) + parseInt(product.quantity, 10);
-          article.teddyPrice =
-            parseInt(article.teddyPrice, 10) + parseInt(product.teddyPrice, 10);
+        if (article.teddyId === product.teddyId) {
+          if (article.teddyColor === product.teddyColor) {
+            // On ajoute la quantité et le prix
+            article.quantity =
+              parseInt(article.quantity, 10) + parseInt(product.quantity, 10);
+            article.teddyPrice =
+              parseInt(article.teddyPrice, 10) +
+              parseInt(product.teddyPrice, 10);
+          }
         }
       }
 
@@ -149,13 +149,22 @@ async function goToBasket() {
         (el) => el.teddyColor
       );
 
-      // Si on a pas déjà un ourson avec le même id ou la couleur on peut l'ajouter comme nouvel objet
-      if (
-        idLocalStorage.includes(product.teddyId) == false ||
-        colorLocalStorage.includes(product.teddyColor) == false
-      ) {
-        productInLocalStorage.push(product);
-      }
+      productInLocalStorage.push(product);
+      localStorage.setItem("produit", JSON.stringify(productInLocalStorage));
+
+      function RemoveDouble() {
+      productInLocalStorage = productInLocalStorage.filter(
+        (productInLocalStorage, index, self) =>
+          index ===
+          self.findIndex(
+            (double) =>
+              double.teddyId === productInLocalStorage.teddyId &&
+              double.teddyColor === productInLocalStorage.teddyColor
+          )
+      );
+    }
+
+    RemoveDouble(),
       localStorage.setItem("produit", JSON.stringify(productInLocalStorage));
       showHowMuchProductInLocalStorage();
       console.log(product);
@@ -220,5 +229,3 @@ function showHowMuchProductInLocalStorage() {
 
 main();
 showHowMuchProductInLocalStorage();
-
-
