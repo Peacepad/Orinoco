@@ -57,13 +57,15 @@ function displaytheArticle(teddy) {
 
 // Ajout des options de quantités--------------------------------
 
-
-for (let i = 1; i <= 9; i++) {
-  let opt = document.createElement("option");
-  opt.value = i;
-  opt.innerHTML = i;
-  domSelectTheQuantity.appendChild(opt);
+function addQuantityInDom() {
+  for (let i = 1; i <= 9; i++) {
+    let opt = document.createElement("option");
+    opt.value = i;
+    opt.innerHTML = i;
+    domSelectTheQuantity.appendChild(opt);
+  }
 }
+addQuantityInDom();
 
 //Ecoute de la quantité choisie------------------------------------------------------------
 
@@ -78,16 +80,19 @@ function addOption(colors) {
 async function goToBasket() {
   const teddy = await getTheTeddy();
 
-  // Ecoute de la couleur choisie--------------------------------------------------------------
+  // Ecoute des selections choisies--------------------------------------------------------------
 
-  domSelectColor.addEventListener("change", (e) => {
-    product.teddyColor = e.target.value;
-  });
+  function listenSelectors() {
+    domSelectColor.addEventListener("change", (e) => {
+      product.teddyColor = e.target.value;
+    });
 
-  domSelectTheQuantity.addEventListener("change", (e) => {
-    product.quantity = e.target.value;
-    product.teddyPrice = (e.target.value * teddy.price) / 100;
-  });
+    domSelectTheQuantity.addEventListener("change", (e) => {
+      product.quantity = e.target.value;
+      product.teddyPrice = (e.target.value * teddy.price) / 100;
+    });
+  }
+  listenSelectors();
 
   // Définition d'un product-------------------------------------------------------------------
 
@@ -124,28 +129,28 @@ async function goToBasket() {
   function checkLocalStorage() {
     //s'il y a déjà quelque chose
     if (productInLocalStorage) {
-      
       // Est-ce que l'article en question existe déjà avec la même couleur et le même id
 
       for (article of productInLocalStorage) {
         if (
           article.teddyId === product.teddyId &&
           article.teddyColor === product.teddyColor
-        ) { // On ajoute la quantité et le prix
+        ) {
+          // On ajoute la quantité et le prix
           article.quantity =
             parseInt(article.quantity, 10) + parseInt(product.quantity, 10);
           article.teddyPrice =
             parseInt(article.teddyPrice, 10) + parseInt(product.teddyPrice, 10);
         }
       }
-      
+
       const idLocalStorage = productInLocalStorage.map((el) => el.teddyId);
       const colorLocalStorage = productInLocalStorage.map(
         (el) => el.teddyColor
       );
 
       // Si on a pas déjà un ourson avec le même id ou la couleur on peut l'ajouter comme nouvel objet
-      if ( 
+      if (
         idLocalStorage.includes(product.teddyId) == false ||
         colorLocalStorage.includes(product.teddyColor) == false
       ) {
@@ -216,4 +221,4 @@ function showHowMuchProductInLocalStorage() {
 main();
 showHowMuchProductInLocalStorage();
 
-function quantityManager() {}
+

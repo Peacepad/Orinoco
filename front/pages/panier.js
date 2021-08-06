@@ -55,7 +55,7 @@ function checkProductInLocalStorage() {
     document.querySelector(".delete-cart").innerHTML =
       '<button class="delete-all__btn">Vider le panier<span><i class="fas fa-trash-alt"></i></span></button>';
     displayForm();
-    deleteProduct();
+    makeALoopOnProductInLocalStorage()
     calculateTotal();
     clearCart();
     listenSubmitButton();
@@ -64,10 +64,18 @@ function checkProductInLocalStorage() {
 
 checkProductInLocalStorage();
 
+
+function makeALoopOnProductInLocalStorage() {
+  for (let k = 0; k < productInLocalStorage.length; k++) {
+    deleteProduct(k);
+    addOrReduceQuantity(k);
+  }
+}
+
+
 // Fonction pour supprimer un élément du panier-----------------------------------------------
 
-function deleteProduct() {
-  for (let k = 0; k < productInLocalStorage.length; k++) {
+function deleteProduct(k) {
     document.querySelector(`#delete${[k]}`).addEventListener(
       "click",
       (ev) => {
@@ -78,19 +86,19 @@ function deleteProduct() {
       },
       false
     );
-  }
+  
 }
 
 // Gérer la quantité
 
-for (let k = 0; k < productInLocalStorage.length; k++) {
+function addOrReduceQuantity(k) {
   let boutonPush = "";
 
   document.querySelector(`#less${[k]}`).addEventListener(
     "click",
     (ev) => {
       boutonPush = "moins";
-      addOrReduceQuantity();
+      ApplyAddOrReduceQuantity();
     },
     false
   );
@@ -99,12 +107,13 @@ for (let k = 0; k < productInLocalStorage.length; k++) {
     "click",
     (ev) => {
       boutonPush = "plus";
-      addOrReduceQuantity();
+      ApplyAddOrReduceQuantity();
     },
     false
   );
 
-  function addOrReduceQuantity() {
+  // Fonction qui écoute les boutons + et - pour ajouter ou diminuer la quantité
+  function ApplyAddOrReduceQuantity() {
     const realPrice = parseInt(productInLocalStorage[k].teddyPrice, 10);
     const priceForOne =
       parseInt(realPrice, 10) / parseInt(productInLocalStorage[k].quantity);
@@ -220,115 +229,63 @@ const domVoie = document.getElementById("voie");
 const domCity = document.getElementById("city");
 const domEmail = document.getElementById("email");
 
-// Ecoute de l'input firstname----------------------------------------
+let firstnameRegExp = /^[a-z '-]+$/i;
+let lastnameRegExp = /^[a-z '-]+$/i;
+let numberRegExp = /^[0-9]{1,4}/;
+let voieRegExp = /^[ A-Za-zÀ-ÿ0-9\-]+$/;
+let cityRegExp = /^[a-zA-Z]+(?:[\s-][a-zA-Z]+)*$/;
+let emailRegExp = /.+\@.+\..+/;
 
-domFirstname.addEventListener("change", function () {
-  validFirstName(this);
-});
+const domNeedVerification = [
+  domFirstname,
+  domLastname,
+  domNumber,
+  domVoie,
+  domCity,
+  domEmail,
+];
 
-// Fonction avec la regExp pour l'input firstname
-const validFirstName = function (inputFirstName) {
-  let firstNameRegExp = /^[a-z '-]+$/i;
+const regex = [
+  firstnameRegExp,
+  lastnameRegExp,
+  numberRegExp,
+  voieRegExp,
+  cityRegExp,
+  emailRegExp,
+];
 
-  // S'il est vrai (en adéquation avec la regex)
-  if (firstNameRegExp.test(inputFirstName.value)) {
-    domFirstname.classList.remove("invalid");
-    domFirstname.classList.add("valid");
-    return true;
+for (let i = 0; i <= domNeedVerification.length; i++) {
+domNeedVerification[i].addEventListener("change", (e) => {
+  if (regex[i].test(domNeedVerification[i].value)) {
+    domNeedVerification[i].classList.remove("invalid");
+    domNeedVerification[i].classList.add("valid");
+
   } else {
-    domFirstname.classList.remove("valid");
-    domFirstname.classList.add("invalid");
-    return false;
+    domNeedVerification[i].classList.remove("valid");
+    domNeedVerification[i].classList.add("invalid");
   }
-};
-
-// Ecoute de l'input laststname----------------------------------------
-
-domLastname.addEventListener("change", function () {
-  validLastName(this);
-});
-
-// Fonction avece la regExp pour l'input lastname
-const validLastName = function (inputLastName) {
-  let lastNameRegExp = /^[a-z '-]+$/i;
-
-  // S'il est vrai
-  if (lastNameRegExp.test(inputLastName.value)) {
-    domLastname.classList.remove("invalid");
-    domLastname.classList.add("valid");
-    return true;
-  } else {
-    domLastname.classList.remove("valid");
-    domLastname.classList.add("invalid");
-    return false;
-  }
-};
-
-// Ecoute de l'input city-------------------------------------------------
-
-domCity.addEventListener("change", function () {
-  validCity(this);
-});
-
-// Fonction avece la regExp pour l'input city
-const validCity = function (inputCity) {
-  let cityRegExp = /^[a-zA-Z]+(?:[\s-][a-zA-Z]+)*$/;
-
-  // S'il est vrai
-  if (cityRegExp.test(inputCity.value)) {
-    domCity.classList.remove("invalid");
-    domCity.classList.add("valid");
-    return true;
-  } else {
-    domCity.classList.remove("valid");
-    domCity.classList.add("invalid");
-    return false;
-  }
-};
-
-// Ecoute de l'input email-------------------------------------------
-domEmail.addEventListener("change", function () {
-  validEmail(this);
-});
-
-// Fonction avece la regExp pour l'input email
-const validEmail = function (inputEmail) {
-  let emailRegExp = new RegExp(
-    "^[a-zA-Z0-9.-_]+[@]{1}[a-zA-Z0-9.-_]+[.]{1}[a-z]{2,10}$",
-    "g"
-  );
-
-  // S'il est vrai
-  if (emailRegExp.test(inputEmail.value)) {
-    domEmail.classList.remove("invalid");
-    domEmail.classList.add("valid");
-    return true;
-  } else {
-    domEmail.classList.remove("valid");
-    domEmail.classList.add("invalid");
-    return false;
-  }
-};
+})
+}
 
 // Ecouter le bouton d'envoi du formulaire----------------------------------------------------
 function listenSubmitButton() {
   document.querySelector("#contact-information").addEventListener(
     "submit",
     (e) => {
+      console.log('envoyé )')
+      const firstnameValue = domFirstname.value;
+        const lastnameValue = domLastname.value;
+        const numberValue = domNumber.value;
+        const voieValue = domVoie.value;
+        const cityValue = domCity.value;
+        const emailValue = domEmail.value;
+
       // Si les champs du formulaire sont valides--------------
-      if (
-        validFirstName(firstname) &&
-        validLastName(lastname) &&
-        validCity(city) &&
-        validEmail(email)
+      if (firstnameRegExp.test(firstnameValue) &&
+      lastnameRegExp.test(lastnameValue) && numberRegExp.test(numberValue) && voieRegExp.test(voieValue) && cityRegExp.test(cityValue) && emailRegExp.test(emailValue)
       ) {
         // Récupérer la valeur des champs---------------------
-        const firstnameValue = document.getElementById("firstname").value;
-        const lastnameValue = document.getElementById("lastname").value;
-        const numberValue = document.getElementById("number").value;
-        const voieValue = document.getElementById("voie").value;
-        const cityValue = document.getElementById("city").value;
-        const emailValue = document.getElementById("email").value;
+        
 
         const collectProductsInLocalStorage = JSON.parse(
           localStorage.getItem("produit")
@@ -412,3 +369,13 @@ function showHowMuchProductInLocalStorage() {
 }
 
 showHowMuchProductInLocalStorage();
+
+
+
+
+
+
+
+
+
+
