@@ -12,11 +12,11 @@ let justId = params.get("id");
 function getTheTeddy() {
   return fetch(`http://localhost:3000/api/teddies/${justId}`)
     .then(function (res) {
-      console.log("ok");
+
       return res.json();
     })
     .then(function (teddy) {
-      //console.log(theArticle);
+
       return teddy;
     })
     .catch(function (error) {
@@ -31,7 +31,7 @@ async function main() {
 
   const colors = teddy.colors;
 
-  displaytheArticle(teddy);
+  displayTheArticle(teddy);
 
   addOption(colors);
 
@@ -40,7 +40,7 @@ async function main() {
 
 // Fonction qui affiche les informations sur l'ourson en fonction du tableau obtenu-----------------------------
 
-function displaytheArticle(teddy) {
+function displayTheArticle(teddy) {
   domTheArticle.innerHTML = `
     <div class="thearticle__image">
       <img src="${teddy.imageUrl}" alt="Image de l'ours ${teddy.name}"/>
@@ -57,13 +57,15 @@ function displaytheArticle(teddy) {
 
 // Ajout des options de quantités--------------------------------
 
-
-for (let i = 1; i <= 9; i++) {
-  let opt = document.createElement("option");
-  opt.value = i;
-  opt.innerHTML = i;
-  domSelectTheQuantity.appendChild(opt);
+function addQuantityInDom() {
+  for (let i = 1; i <= 9; i++) {
+    let opt = document.createElement("option");
+    opt.value = i;
+    opt.innerHTML = i;
+    domSelectTheQuantity.appendChild(opt);
+  }
 }
+addQuantityInDom();
 
 //Ecoute de la quantité choisie------------------------------------------------------------
 
@@ -78,16 +80,19 @@ function addOption(colors) {
 async function goToBasket() {
   const teddy = await getTheTeddy();
 
-  // Ecoute de la couleur choisie--------------------------------------------------------------
+  // Ecoute des selections choisies--------------------------------------------------------------
 
-  domSelectColor.addEventListener("change", (e) => {
-    product.teddyColor = e.target.value;
-  });
+  function listenSelectors() {
+    domSelectColor.addEventListener("change", (e) => {
+      product.teddyColor = e.target.value;
+    });
 
-  domSelectTheQuantity.addEventListener("change", (e) => {
-    product.quantity = e.target.value;
-    product.teddyPrice = (e.target.value * teddy.price) / 100;
-  });
+    domSelectTheQuantity.addEventListener("change", (e) => {
+      product.quantity = e.target.value;
+      product.teddyPrice = (e.target.value * teddy.price) / 100;
+    });
+  }
+  listenSelectors();
 
   // Définition d'un product-------------------------------------------------------------------
 
@@ -124,36 +129,45 @@ async function goToBasket() {
   function checkLocalStorage() {
     //s'il y a déjà quelque chose
     if (productInLocalStorage) {
-      
       // Est-ce que l'article en question existe déjà avec la même couleur et le même id
 
       for (article of productInLocalStorage) {
-        if (
-          article.teddyId === product.teddyId &&
-          article.teddyColor === product.teddyColor
-        ) { // On ajoute la quantité et le prix
-          article.quantity =
-            parseInt(article.quantity, 10) + parseInt(product.quantity, 10);
-          article.teddyPrice =
-            parseInt(article.teddyPrice, 10) + parseInt(product.teddyPrice, 10);
+        if (article.teddyId === product.teddyId) {
+          if (article.teddyColor === product.teddyColor) {
+            // On ajoute la quantité et le prix
+            article.quantity =
+              parseInt(article.quantity, 10) + parseInt(product.quantity, 10);
+            article.teddyPrice =
+              parseInt(article.teddyPrice, 10) +
+              parseInt(product.teddyPrice, 10);
+          }
         }
       }
-      
+
       const idLocalStorage = productInLocalStorage.map((el) => el.teddyId);
       const colorLocalStorage = productInLocalStorage.map(
         (el) => el.teddyColor
       );
 
-      // Si on a pas déjà un ourson avec le même id ou la couleur on peut l'ajouter comme nouvel objet
-      if ( 
-        idLocalStorage.includes(product.teddyId) == false ||
-        colorLocalStorage.includes(product.teddyColor) == false
-      ) {
-        productInLocalStorage.push(product);
-      }
+      productInLocalStorage.push(product);
+      localStorage.setItem("produit", JSON.stringify(productInLocalStorage));
+
+      function removeDouble() {
+      productInLocalStorage = productInLocalStorage.filter(
+        (productInLocalStorage, index, self) =>
+          index ===
+          self.findIndex(
+            (double) =>
+              double.teddyId === productInLocalStorage.teddyId &&
+              double.teddyColor === productInLocalStorage.teddyColor
+          )
+      );
+    }
+
+    removeDouble(),
       localStorage.setItem("produit", JSON.stringify(productInLocalStorage));
       showHowMuchProductInLocalStorage();
-      console.log(product);
+
       howContinue();
     }
 
@@ -161,7 +175,7 @@ async function goToBasket() {
     else {
       productInLocalStorage = [];
       productInLocalStorage.push(product);
-      console.log(productInLocalStorage);
+
       localStorage.setItem("produit", JSON.stringify(productInLocalStorage));
       showHowMuchProductInLocalStorage();
       howContinue();
@@ -170,6 +184,7 @@ async function goToBasket() {
 
   // Ecoute du bouton ajouter au panier-------------------------------------
 
+  function listenSendButton() {
   domProductForm.addEventListener(
     "submit",
     (e) => {
@@ -191,6 +206,9 @@ async function goToBasket() {
     false
   );
 }
+listenSendButton()
+};
+
 
 // Fonction pour afficher le nombre d'article présent dans le panier--------------------------------------------------------
 
@@ -199,7 +217,7 @@ function showHowMuchProductInLocalStorage() {
     localStorage.getItem("produit") === null ||
     productInLocalStorage.length == 0
   ) {
-    console.log("0");
+
   } else {
     document.querySelector(".number-cart").style.right = "32px";
     if (productInLocalStorage.length > 9) {
@@ -215,5 +233,3 @@ function showHowMuchProductInLocalStorage() {
 
 main();
 showHowMuchProductInLocalStorage();
-
-function quantityManager() {}
