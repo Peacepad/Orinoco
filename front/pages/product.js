@@ -12,11 +12,11 @@ let justId = params.get("id");
 function getTheTeddy() {
   return fetch(`http://localhost:3000/api/teddies/${justId}`)
     .then(function (res) {
-      console.log("ok");
+
       return res.json();
     })
     .then(function (teddy) {
-      //console.log(theArticle);
+
       return teddy;
     })
     .catch(function (error) {
@@ -31,7 +31,7 @@ async function main() {
 
   const colors = teddy.colors;
 
-  displaytheArticle(teddy);
+  displayTheArticle(teddy);
 
   addOption(colors);
 
@@ -40,7 +40,7 @@ async function main() {
 
 // Fonction qui affiche les informations sur l'ourson en fonction du tableau obtenu-----------------------------
 
-function displaytheArticle(teddy) {
+function displayTheArticle(teddy) {
   domTheArticle.innerHTML = `
     <div class="thearticle__image">
       <img src="${teddy.imageUrl}" alt="Image de l'ours ${teddy.name}"/>
@@ -152,7 +152,7 @@ async function goToBasket() {
       productInLocalStorage.push(product);
       localStorage.setItem("produit", JSON.stringify(productInLocalStorage));
 
-      function RemoveDouble() {
+      function removeDouble() {
       productInLocalStorage = productInLocalStorage.filter(
         (productInLocalStorage, index, self) =>
           index ===
@@ -164,10 +164,10 @@ async function goToBasket() {
       );
     }
 
-    RemoveDouble(),
+    removeDouble(),
       localStorage.setItem("produit", JSON.stringify(productInLocalStorage));
       showHowMuchProductInLocalStorage();
-      console.log(product);
+
       howContinue();
     }
 
@@ -175,7 +175,7 @@ async function goToBasket() {
     else {
       productInLocalStorage = [];
       productInLocalStorage.push(product);
-      console.log(productInLocalStorage);
+
       localStorage.setItem("produit", JSON.stringify(productInLocalStorage));
       showHowMuchProductInLocalStorage();
       howContinue();
@@ -184,6 +184,7 @@ async function goToBasket() {
 
   // Ecoute du bouton ajouter au panier-------------------------------------
 
+  function listenSendButton() {
   domProductForm.addEventListener(
     "submit",
     (e) => {
@@ -205,6 +206,9 @@ async function goToBasket() {
     false
   );
 }
+listenSendButton()
+};
+
 
 // Fonction pour afficher le nombre d'article présent dans le panier--------------------------------------------------------
 
@@ -213,7 +217,7 @@ function showHowMuchProductInLocalStorage() {
     localStorage.getItem("produit") === null ||
     productInLocalStorage.length == 0
   ) {
-    console.log("0");
+
   } else {
     document.querySelector(".number-cart").style.right = "32px";
     if (productInLocalStorage.length > 9) {

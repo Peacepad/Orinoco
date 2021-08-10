@@ -45,12 +45,12 @@ function checkProductInLocalStorage() {
     localStorage.getItem("produit") === null ||
     productInLocalStorage.length == 0
   ) {
-    console.log("le panier est vide");
+
     domDisplayArea.innerHTML = `<p class="empty-cart">Votre panier est vide.</p>  
                             <p>N'hésitez pas à le remplir d'oursons en peluches.<br>Continuez à tout moment vos achats sur Orinoco.</p>
                             <p><a href="../index.html" title="Revenir à l'accueil"><button>Revenir à l'accueil</button></a></p>`;
   } else {
-    console.log("le panier est rempli");
+
     displayArticleInLocalStorage();
     document.querySelector(".delete-cart").innerHTML =
       '<button class="delete-all__btn">Vider le panier<span><i class="fas fa-trash-alt"></i></span></button>';
@@ -78,7 +78,7 @@ function deleteProduct(k) {
     "click",
     (ev) => {
       productInLocalStorage.splice([k], 1);
-      console.log(productInLocalStorage);
+
       localStorage.setItem("produit", JSON.stringify(productInLocalStorage));
       document.location.reload();
     },
@@ -155,12 +155,12 @@ function calculateTotal() {
 
 function clearCart() {
   let l = productInLocalStorage.length;
-  console.log(l);
+
   domButtonClearCart.addEventListener(
     "click",
     (ev) => {
       localStorage.clear();
-      console.log(productInLocalStorage);
+
       sessionStorage.setItem("totalPrice", 0);
       document.location.reload();
     },
@@ -251,6 +251,7 @@ const regex = [
   emailRegExp,
 ];
 
+function highlightErrors() {
 for (let i = 0; i <= domNeedVerification.length; i++) {
   domNeedVerification[i].addEventListener("change", (e) => {
     if (regex[i].test(domNeedVerification[i].value)) {
@@ -261,14 +262,16 @@ for (let i = 0; i <= domNeedVerification.length; i++) {
       domNeedVerification[i].classList.add("invalid");
     }
   });
-}
+}}
+
+highlightErrors();
 
 // Ecouter le bouton d'envoi du formulaire----------------------------------------------------
 function listenSubmitButton() {
   document.querySelector("#contact-information").addEventListener(
     "submit",
     (e) => {
-      console.log("envoyé )");
+
       const firstnameValue = domFirstname.value;
       const lastnameValue = domLastname.value;
       const numberValue = domNumber.value;
@@ -324,7 +327,7 @@ function listenSubmitButton() {
             body: JSON.stringify(order),
           })
             .then(function (response) {
-              console.log("ok");
+
               return response.json();
             })
             .then(function (data) {
@@ -333,7 +336,7 @@ function listenSubmitButton() {
               window.location = "confirmation.html";
             })
             .catch(function (error) {
-              console.log("erreur au niveau de la requête envoi serveur");
+
             });
         }
 
@@ -356,7 +359,7 @@ function showHowMuchProductInLocalStorage() {
     localStorage.getItem("produit") === null ||
     productInLocalStorage.length == 0
   ) {
-    console.log("0");
+
   } else {
     document.querySelector(".number-cart").style.right = "32px";
     if (productInLocalStorage.length > 9) {

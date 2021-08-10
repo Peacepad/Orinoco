@@ -5,7 +5,7 @@ let productInLocalStorage = JSON.parse(localStorage.getItem("produit"));
 function getTeddies() {
   return fetch("http://localhost:3000/api/teddies")
     .then(function (response) {
-      console.log("ok");
+      
       return response.json();
     })
     .then(function (teddies) {
@@ -20,6 +20,7 @@ function getTeddies() {
 
 async function makeALoop() {
   const teddies = await getTeddies();
+
   for (teddy of teddies) {
     displayTeddies();
   }
@@ -50,7 +51,7 @@ function showHowMuchProductInLocalStorage() {
     localStorage.getItem("produit") === null ||
     productInLocalStorage.length == 0
   ) {
-    console.log("0");
+
   } else {
         document.querySelector(".number-cart").style.right = "32px";
     if (productInLocalStorage.length > 9) {
