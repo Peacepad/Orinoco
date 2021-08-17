@@ -271,6 +271,7 @@ const regex = [
 ];
 
 function highlightErrors() {
+  document.querySelector('#contact-information').addEventListener('change', e => {
 for (let i = 0; i <= domNeedVerification.length; i++) {
   domNeedVerification[i].addEventListener("change", (e) => {
     if (regex[i].test(domNeedVerification[i].value)) {
@@ -281,7 +282,7 @@ for (let i = 0; i <= domNeedVerification.length; i++) {
       domNeedVerification[i].classList.add("invalid");
     }
   });
-}}
+}})}
 
 highlightErrors();
 
