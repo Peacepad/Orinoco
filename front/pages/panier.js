@@ -4,6 +4,27 @@ const domButtonClearCart = document.querySelector(".delete-cart");
 
 const domDisplayArea = document.querySelector(".cart-product__container");
 
+// Afficher le nombre de produits présents dans le panier-------------------
+
+function showHowMuchProductInLocalStorage() {
+  if (
+    localStorage.getItem("produit") === null ||
+    productInLocalStorage.length == 0
+  ) {
+
+  } else {
+    document.querySelector(".number-cart").style.right = "32px";
+    if (productInLocalStorage.length > 9) {
+      document.querySelector(".number-cart").style.right = "29px";
+    }
+    document.querySelector(
+      ".number-cart"
+    ).innerText = `${productInLocalStorage.length}`;
+  }
+}
+
+showHowMuchProductInLocalStorage();
+
 // Afficher le détail des produits dans le panier-----------------------------------------------------
 
 function displayArticleInLocalStorage() {
@@ -78,7 +99,6 @@ function deleteProduct(k) {
     "click",
     (ev) => {
       productInLocalStorage.splice([k], 1);
-
       localStorage.setItem("produit", JSON.stringify(productInLocalStorage));
       document.location.reload();
     },
@@ -119,7 +139,6 @@ function addOrReduceQuantity(k) {
       productInLocalStorage[k].teddyPrice -= priceForOne;
       if (productInLocalStorage[k].quantity == 0) {
         productInLocalStorage.splice([k], 1);
-
         localStorage.setItem("produit", JSON.stringify(productInLocalStorage));
         document.location.reload();
       }
@@ -352,23 +371,3 @@ function listenSubmitButton() {
   );
 }
 
-// Afficher le nombre de produits présents dans le panier-------------------
-
-function showHowMuchProductInLocalStorage() {
-  if (
-    localStorage.getItem("produit") === null ||
-    productInLocalStorage.length == 0
-  ) {
-
-  } else {
-    document.querySelector(".number-cart").style.right = "32px";
-    if (productInLocalStorage.length > 9) {
-      document.querySelector(".number-cart").style.right = "29px";
-    }
-    document.querySelector(
-      ".number-cart"
-    ).innerText = `${productInLocalStorage.length}`;
-  }
-}
-
-showHowMuchProductInLocalStorage();

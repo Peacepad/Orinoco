@@ -297,7 +297,7 @@ header {
   .delete-all__btn:hover {
     transform: scale(1.1); }
 
-button {
+a button {
   border: solid 1px black;
   font-size: 1em; }
 
