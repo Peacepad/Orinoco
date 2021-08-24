@@ -367,7 +367,7 @@ footer a {
 .thearticle__name {
   font-size: 1.3em;
   transform: rotate(-10deg);
-  animation: 200ms 700ms rotation-texte forwards; }
+  animation: 500ms 750ms rotation-texte forwards; }
 
 .thearticle__content {
   width: 30%;
@@ -375,7 +375,7 @@ footer a {
   padding: 20px;
   margin: auto;
   transform: rotate(-10deg);
-  animation: 500ms 500ms rotation-cadre forwards; }
+  animation: 500ms 700ms rotation-cadre forwards; }
   @media (max-width: 992px) {
     .thearticle__content {
       width: 100%; } }
@@ -385,13 +385,13 @@ footer a {
   padding-top: 20px;
   padding-bottom: 20px;
   transform: rotate(-10deg);
-  animation: 200ms 700ms rotation-texte forwards; }
+  animation: 500ms 750ms rotation-texte forwards; }
 
 .thearticle__price {
   text-align: right;
   font-size: 1.5em;
   transform: rotate(-10deg);
-  animation: 200ms 700ms rotation-texte forwards; }
+  animation: 500ms 750ms rotation-texte forwards; }
 
 @keyframes rotation-cadre {
   0% {
@@ -404,8 +404,10 @@ footer a {
 @keyframes rotation-texte {
   0% {
     transform: rotate(-10deg); }
-  90% {
-    transform: rotate(0deg) translateX(-1px); }
+  85% {
+    transform: rotate(5deg); }
+  95% {
+    transform: rotate(-1deg); }
   100% {
     transform: rotate(0deg); } }
 .choose {

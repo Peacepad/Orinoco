@@ -37,7 +37,7 @@
 .thearticle__name {
   font-size: 1.3em;
   transform: rotate(-10deg);
-  animation: 200ms 700ms rotation-texte forwards;
+  animation: 500ms 750ms rotation-texte forwards;
 }
 
 .thearticle__content {
@@ -46,7 +46,7 @@
   padding:20px;
   margin: auto;
   transform:rotate(-10deg);
-  animation: 500ms 500ms rotation-cadre forwards;
+  animation: 500ms 700ms rotation-cadre forwards;
   @media (max-width: 992px) {
     width: 100%;
   }
@@ -57,14 +57,14 @@
   padding-top: 20px;
   padding-bottom: 20px;
   transform: rotate(-10deg);
-  animation: 200ms 700ms rotation-texte forwards;
+  animation: 500ms 750ms rotation-texte forwards;
 }
 
 .thearticle__price {
   text-align: right;
   font-size: 1.5em;
   transform: rotate(-10deg);
-  animation: 200ms 700ms rotation-texte forwards;
+  animation: 500ms 750ms rotation-texte forwards;
 }
 
 
@@ -87,8 +87,11 @@
   0% {
     transform:rotate(-10deg)
   }
-  90% {
-    transform:rotate(0deg) translateX(-1px);
+  85% {
+    transform:rotate(5deg);
+  }
+  95% {
+    transform: rotate(-1deg);
   }
   100% {
     transform:rotate(0deg)
