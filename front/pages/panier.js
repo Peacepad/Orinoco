@@ -11,7 +11,6 @@ function showHowMuchProductInLocalStorage() {
     localStorage.getItem("produit") === null ||
     productInLocalStorage.length == 0
   ) {
-
   } else {
     document.querySelector(".number-cart").style.right = "32px";
     if (productInLocalStorage.length > 9) {
@@ -66,12 +65,10 @@ function checkProductInLocalStorage() {
     localStorage.getItem("produit") === null ||
     productInLocalStorage.length == 0
   ) {
-
     domDisplayArea.innerHTML = `<p class="empty-cart">Votre panier est vide.</p>  
                             <p>N'hésitez pas à le remplir d'oursons en peluches.<br>Continuez à tout moment vos achats sur Orinoco.</p>
                             <p><a href="../index.html" title="Revenir à l'accueil"><button>Revenir à l'accueil</button></a></p>`;
   } else {
-
     displayArticleInLocalStorage();
     document.querySelector(".delete-cart").innerHTML =
       '<button class="delete-all__btn">Vider le panier<span><i class="fas fa-trash-alt"></i></span></button>';
@@ -248,7 +245,7 @@ const domEmail = document.getElementById("email");
 let firstnameRegExp = /^[a-z '-]+$/i;
 let lastnameRegExp = /^[a-z '-]+$/i;
 let numberRegExp = /^[0-9]{1,4}/;
-let voieRegExp = /^[ A-Za-zÀ-ÿ0-9\-]+$/;
+let voieRegExp = /^[ A-Za-zÀ-ÿ0-9\-]{2,}/;
 let cityRegExp = /^[a-zA-Z]+(?:[\s-][a-zA-Z]+)*$/;
 let emailRegExp = /.+\@.+\..+/;
 
@@ -271,18 +268,18 @@ const regex = [
 ];
 
 function highlightErrors() {
-  document.querySelector('#contact-information').addEventListener('change', e => {
-for (let i = 0; i <= domNeedVerification.length; i++) {
-  domNeedVerification[i].addEventListener("change", (e) => {
-    if (regex[i].test(domNeedVerification[i].value)) {
-      domNeedVerification[i].classList.remove("invalid");
-      domNeedVerification[i].classList.add("valid");
-    } else {
-      domNeedVerification[i].classList.remove("valid");
-      domNeedVerification[i].classList.add("invalid");
-    }
-  });
-}})}
+  for (let i = 0; i < domNeedVerification.length; i++) {
+    domNeedVerification[i].addEventListener("change", (e) => {
+      if (regex[i].test(domNeedVerification[i].value)) {
+        domNeedVerification[i].classList.remove("invalid");
+        domNeedVerification[i].classList.add("valid");
+      } else {
+        domNeedVerification[i].classList.remove("valid");
+        domNeedVerification[i].classList.add("invalid");
+      }
+    });
+  }
+}
 
 highlightErrors();
 
@@ -291,7 +288,6 @@ function listenSubmitButton() {
   document.querySelector("#contact-information").addEventListener(
     "submit",
     (e) => {
-
       const firstnameValue = domFirstname.value;
       const lastnameValue = domLastname.value;
       const numberValue = domNumber.value;
@@ -347,7 +343,6 @@ function listenSubmitButton() {
             body: JSON.stringify(order),
           })
             .then(function (response) {
-
               return response.json();
             })
             .then(function (data) {
@@ -355,9 +350,7 @@ function listenSubmitButton() {
               localStorage.removeItem("produit");
               window.location = "confirmation.html";
             })
-            .catch(function (error) {
-
-            });
+            .catch(function (error) {});
         }
 
         sendInfo();
@@ -371,4 +364,3 @@ function listenSubmitButton() {
     false
   );
 }
-

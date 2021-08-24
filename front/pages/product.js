@@ -12,11 +12,9 @@ let justId = params.get("id");
 function getTheTeddy() {
   return fetch(`http://localhost:3000/api/teddies/${justId}`)
     .then(function (res) {
-
       return res.json();
     })
     .then(function (teddy) {
-
       return teddy;
     })
     .catch(function (error) {
@@ -144,28 +142,23 @@ async function goToBasket() {
         }
       }
 
-      const idLocalStorage = productInLocalStorage.map((el) => el.teddyId);
-      const colorLocalStorage = productInLocalStorage.map(
-        (el) => el.teddyColor
-      );
-
       productInLocalStorage.push(product);
       localStorage.setItem("produit", JSON.stringify(productInLocalStorage));
 
       function removeDouble() {
-      productInLocalStorage = productInLocalStorage.filter(
-        (productInLocalStorage, index, self) =>
-          index ===
-          self.findIndex(
-            (double) =>
-              double.teddyId === productInLocalStorage.teddyId &&
-              double.teddyColor === productInLocalStorage.teddyColor
-          )
-      );
-    }
+        productInLocalStorage = productInLocalStorage.filter(
+          (productInLocalStorage, index, self) =>
+            index ===
+            self.findIndex(
+              (double) =>
+                double.teddyId === productInLocalStorage.teddyId &&
+                double.teddyColor === productInLocalStorage.teddyColor
+            )
+        );
+      }
 
-    removeDouble(),
-      localStorage.setItem("produit", JSON.stringify(productInLocalStorage));
+      removeDouble(),
+        localStorage.setItem("produit", JSON.stringify(productInLocalStorage));
       showHowMuchProductInLocalStorage();
 
       howContinue();
@@ -175,7 +168,6 @@ async function goToBasket() {
     else {
       productInLocalStorage = [];
       productInLocalStorage.push(product);
-
       localStorage.setItem("produit", JSON.stringify(productInLocalStorage));
       showHowMuchProductInLocalStorage();
       howContinue();
@@ -185,30 +177,28 @@ async function goToBasket() {
   // Ecoute du bouton ajouter au panier-------------------------------------
 
   function listenSendButton() {
-  domProductForm.addEventListener(
-    "submit",
-    (e) => {
-      if (
-        product.teddyColor == "" ||
-        product.teddyColor == "Selectionner une couleur"
-      ) {
-        alert("Selectionnez une couleur pour votre ourson.");
-
-        e.preventDefault();
-      } else if (product.quantity == "" || product.quantity == "Quantité") {
-        alert("Selectionnez une quantité.");
-        e.preventDefault();
-      } else {
-        e.preventDefault();
-        checkLocalStorage();
-      }
-    },
-    false
-  );
+    domProductForm.addEventListener(
+      "submit",
+      (e) => {
+        if (
+          product.teddyColor == "" ||
+          product.teddyColor == "Selectionner une couleur"
+        ) {
+          alert("Selectionnez une couleur pour votre ourson.");
+          e.preventDefault();
+        } else if (product.quantity == "" || product.quantity == "Quantité") {
+          alert("Selectionnez une quantité.");
+          e.preventDefault();
+        } else {
+          e.preventDefault();
+          checkLocalStorage();
+        }
+      },
+      false
+    );
+  }
+  listenSendButton();
 }
-listenSendButton()
-};
-
 
 // Fonction pour afficher le nombre d'article présent dans le panier--------------------------------------------------------
 
@@ -217,7 +207,6 @@ function showHowMuchProductInLocalStorage() {
     localStorage.getItem("produit") === null ||
     productInLocalStorage.length == 0
   ) {
-
   } else {
     document.querySelector(".number-cart").style.right = "32px";
     if (productInLocalStorage.length > 9) {
